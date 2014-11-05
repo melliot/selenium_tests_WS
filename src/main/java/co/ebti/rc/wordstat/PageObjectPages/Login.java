@@ -69,6 +69,7 @@ public class Login extends Page {
         emeilField.sendKeys(email);
         passwordField.sendKeys(password);
         loginButton.click();
+        waitForElementVisible10Sec(editProfileLink);
         editProfileLink.isDisplayed();
     }
 }

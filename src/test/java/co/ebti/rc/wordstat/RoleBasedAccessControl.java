@@ -5,6 +5,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.*;
 
 import java.util.ArrayList;
@@ -29,20 +30,33 @@ public class RoleBasedAccessControl {
     public void createTestUsers(){
         testUsersEmailsAndRoles = addUsersAndRoles(testUsersEmailsAndRoles);
 
-/*        driver = new FirefoxDriver();
+        driver = new FirefoxDriver();
         loginPE = PageFactory.initElements(driver, Login.class);
         loginPE.openAndLogin();
         loginPE.editProfileLink.isDisplayed();
         accountsPE = PageFactory.initElements(driver, Accounts.class);
         accountsPE.open();
 
+        for(int i =0,f = 0; i < 6; i++){
+            if(accountsPE.textOnThePageContains(testUsersEmailsAndRoles.get(i))==true){
+                System.out.println("Test user with email +"+testUsersEmailsAndRoles.get(i)+"+ already created");
+                f++;
+                if(f==6){System.out.println("All test users exist in the system"); return;}
+            }
+            else  {
+                while (accountsPE.textOnThePageContains("John")&&accountsPE.textOnThePageContains("Smith")){
+                accountsPE.deleteJohnSmith.click();
+                driver.switchTo().alert().accept();
+            };}
+        }
+
         for(int i = 0; i < 6; i++) {
             accountsPE.addNewAccount();
             accountsPE.accountEmail.sendKeys(testUsersEmailsAndRoles.get(i));
-            accountsPE.accountName.sendKeys(ConfigProperties.getProperty("JonhSmithName"));
-            accountsPE.userSurname.sendKeys(ConfigProperties.getProperty("JonhSmithSurname"));
-            accountsPE.userPass.sendKeys(password);
-            accountsPE.userPassConfirm.sendKeys(password);
+            accountsPE.accountName.sendKeys(Data.nameJohn);
+            accountsPE.userSurname.sendKeys(Data.surnameSmith);
+            accountsPE.userPass.sendKeys(Data.password);
+            accountsPE.userPassConfirm.sendKeys(Data.password);
 
             //drop-down list
             Select selectedElement = new Select(accountsPE.role);
@@ -51,13 +65,13 @@ public class RoleBasedAccessControl {
             if(testUsersEmailsAndRoles.get(i+6).equals("apiuser")||testUsersEmailsAndRoles.get(i+6).equals("developer")){
                 accountsPE.userServiceName.sendKeys(ConfigProperties.getProperty("userServiceName"));
             }
-
-            accountsPE.saveButton.click();s
+            accountsPE.textOnThePageContains("User created");
+            accountsPE.saveButton.click();
         }
         for(int i = 0; i < 6; i++) {
             assertEquals("Check that the account has been successfully created in the system", true, accountsPE.textOnThePageContains(testUsersEmailsAndRoles.get(i)));
         }
-        if (driver != null) driver.quit();*/
+        if (driver != null) driver.quit();
     }
 
     public ArrayList<String> addUsersAndRoles(ArrayList<String> testUsersEmailsAndRoles){
@@ -206,7 +220,7 @@ public class RoleBasedAccessControl {
     }
 
 
-/*    @AfterSuite(alwaysRun=true)
+    @AfterSuite(alwaysRun=true)
     public void deleteTestUsers(){
         driver = new FirefoxDriver();
         loginPE = PageFactory.initElements(driver, Login.class);
@@ -220,5 +234,5 @@ public class RoleBasedAccessControl {
             driver.switchTo().alert().accept();
         }
         if (driver != null) driver.quit();
-    }*/
+    }
 }
