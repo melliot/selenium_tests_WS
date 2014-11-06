@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Regression" verbose="1" >
+    <test name="Performance">
+        <classes>
+            <class name="co.ebti.rc.wordstat.PagesLoadTime"/>
+        </classes>
+    </test>
+</suite>
