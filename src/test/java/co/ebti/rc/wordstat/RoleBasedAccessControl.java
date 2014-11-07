@@ -41,7 +41,9 @@ public class RoleBasedAccessControl {
             if(accountsPE.textOnThePageContains(testUsersEmailsAndRoles.get(i))==true){
                 System.out.println("Test user with email +"+testUsersEmailsAndRoles.get(i)+"+ already created");
                 f++;
-                if(f==6){System.out.println("All test users exist in the system"); return;}
+                if(f==6){System.out.println("All test users exist in the system");
+                    if (driver != null) driver.quit();
+                    return;}
             }
             else  {
                 while (accountsPE.textOnThePageContains("John")&&accountsPE.textOnThePageContains("Smith")){
@@ -212,6 +214,30 @@ public class RoleBasedAccessControl {
             accountsPE.apiKeyLink.isDisplayed();}
             catch (NoSuchElementException e){assertEquals(true, e.toString().contains("org.openqa.selenium.NoSuchElementException: Unable to locate element: {\"method\":\"partial link text\",\"selector\":\"API key\"}"));}
         }
+    }
+
+    @Test (dataProvider = "userEmails")
+    public void usersCanSeeGroupsPage(String email){
+        loginPE.openAndLogin(email, Data.password);
+        loginPE.linkToGroups.isDisplayed();
+        groups = PageFactory.initElements(driver, Groups.class);
+        groups.open();
+        groups.searchGroup.isDisplayed();
+        assertEquals("Groups page contains button collect wrong weights",groups.textOnThePageContains("Collect wrong weights for"),true);
+        groups.searchGroupCollectionType.isDisplayed();
+        groups.perPage.isDisplayed();
+        groups.find.isDisplayed();
+        if (email.equals(Data.managerEmail)==true||email.equals(Data.guestEmail)){
+            try {
+                assertEquals("Manager and Guest role can create new group",false, groups.linkToCreateNewGroup.isDisplayed());
+
+            } catch (NoSuchElementException e){
+                assertEquals("Manager and Guest role can't create new group. Visibility of create new group link", false, e.toString().contains("Unable to locate element: {\"method\":\"id\",\"selector\":\"new\"}"));}
+        }
+        groups.linkToCreateNewGroup.isDisplayed();
+        groups.linkToCreateNewGroup.click();
+        groups.newGroupNameField.isDisplayed();
+        groups.newGroupNameField.sendKeys("check");
     }
 
     @AfterMethod(alwaysRun=true)

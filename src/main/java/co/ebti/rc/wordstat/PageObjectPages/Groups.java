@@ -35,13 +35,19 @@ public class Groups extends Page {
     @FindBy(name = "commit")
     public WebElement find;
 
-    @FindBy(linkText = "/group_aparser_yandex_repeated_collection/start")
+    @FindBy(partialLinkText = "Collect wrong weights for")
     public WebElement collectWrongWeightsButton;
 
 
 
     @FindBy(linkText = "/groups")
     public WebElement linkToGroups;
+
+
+    //new group elements
+    @FindBy(id = "group_name")
+    public WebElement newGroupNameField;
+
 
     @Override
     public void open() {
