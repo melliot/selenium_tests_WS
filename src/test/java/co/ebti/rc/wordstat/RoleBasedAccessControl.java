@@ -24,11 +24,15 @@ public class RoleBasedAccessControl {
     private Groups groups;
     private ParserSettings parserSettings;
     private Accounts accountsPE;
-    private ArrayList<String> testUsersEmailsAndRoles;
+    private ArrayList<String> testUsersEmails;
+    private ArrayList<String> testUsersRoles;
+
 
     @BeforeSuite
     public void createTestUsers(){
-        testUsersEmailsAndRoles = addUsersAndRoles(testUsersEmailsAndRoles);
+        testUsersRoles = addRoles(testUsersRoles);
+        testUsersEmails = addEmails(testUsersEmails);
+
 
         driver = new FirefoxDriver();
         loginPE = PageFactory.initElements(driver, Login.class);
@@ -37,9 +41,9 @@ public class RoleBasedAccessControl {
         accountsPE = PageFactory.initElements(driver, Accounts.class);
         accountsPE.open();
 
-        for(int i =0,f = 0; i < 6; i++){
-            if(accountsPE.textOnThePageContains(testUsersEmailsAndRoles.get(i))==true){
-                System.out.println("Test user with email +"+testUsersEmailsAndRoles.get(i)+"+ already created");
+        for(int i =0,f = 0; i < 7; i++){
+            if(accountsPE.textOnThePageContains(testUsersEmails.get(i))==true){
+                System.out.println("Test user with email +"+testUsersEmails.get(i)+"+ already created");
                 f++;
                 if(f==6){System.out.println("All test users exist in the system");
                     if (driver != null) driver.quit();
@@ -52,9 +56,9 @@ public class RoleBasedAccessControl {
             };}
         }
 
-        for(int i = 0; i < 6; i++) {
+        for(int i = 0; i < 7; i++) {
             accountsPE.addNewAccount();
-            accountsPE.accountEmail.sendKeys(testUsersEmailsAndRoles.get(i));
+            accountsPE.accountEmail.sendKeys(testUsersEmails.get(i));
             accountsPE.accountName.sendKeys(Data.nameJohn);
             accountsPE.userSurname.sendKeys(Data.surnameSmith);
             accountsPE.userPass.sendKeys(Data.password);
@@ -62,35 +66,43 @@ public class RoleBasedAccessControl {
 
             //drop-down list
             Select selectedElement = new Select(accountsPE.role);
-            selectedElement.selectByVisibleText(testUsersEmailsAndRoles.get(i+6));
+            selectedElement.selectByVisibleText(testUsersRoles.get(i));
 
-            if(testUsersEmailsAndRoles.get(i+6).equals("apiuser")||testUsersEmailsAndRoles.get(i+6).equals("developer")){
+            if(testUsersRoles.get(i).equals("apiuser")||testUsersRoles.get(i).equals("developer")){
                 accountsPE.userServiceName.sendKeys(ConfigProperties.getProperty("userServiceName"));
             }
             accountsPE.textOnThePageContains("User created");
             accountsPE.saveButton.click();
         }
-        for(int i = 0; i < 6; i++) {
-            assertEquals("Check that the account has been successfully created in the system", true, accountsPE.textOnThePageContains(testUsersEmailsAndRoles.get(i)));
+        for(int i = 0; i < 7; i++) {
+            assertEquals("Check that the account has been successfully created in the system", true, accountsPE.textOnThePageContains(testUsersEmails.get(i)));
         }
         if (driver != null) driver.quit();
     }
 
-    public ArrayList<String> addUsersAndRoles(ArrayList<String> testUsersEmailsAndRoles){
-        testUsersEmailsAndRoles = new ArrayList<String>();
-        testUsersEmailsAndRoles.add(0,Data.developerEmail);
-        testUsersEmailsAndRoles.add(1,Data.seoAdminEmail);
-        testUsersEmailsAndRoles.add(2,Data.seoEmail);
-        testUsersEmailsAndRoles.add(3,Data.managerEmail);
-        testUsersEmailsAndRoles.add(4,Data.guestEmail);
-        testUsersEmailsAndRoles.add(5,Data.apiUserEmail);
-        testUsersEmailsAndRoles.add(6, "developer");
-        testUsersEmailsAndRoles.add(7, "seoadmin");
-        testUsersEmailsAndRoles.add(8, "seo");
-        testUsersEmailsAndRoles.add(9, "manager");
-        testUsersEmailsAndRoles.add(10, "guest");
-        testUsersEmailsAndRoles.add(11, "apiuser");
-        return testUsersEmailsAndRoles;
+    public ArrayList<String> addRoles(ArrayList<String> addRoles){
+        addRoles = new ArrayList<String>();
+
+        addRoles.add(0, "developer");
+        addRoles.add(1, "seoadmin");
+        addRoles.add(2, "seo");
+        addRoles.add(3, "manager");
+        addRoles.add(4, "guest");
+        addRoles.add(5, "apiuser");
+        addRoles.add(6, "seomanager");
+        return addRoles;
+    }
+
+    public ArrayList<String> addEmails(ArrayList<String> addEmails){
+        addEmails = new ArrayList<>();
+        addEmails.add(0,Data.developerEmail);
+        addEmails.add(1,Data.seoAdminEmail);
+        addEmails.add(2,Data.seoEmail);
+        addEmails.add(3,Data.managerEmail);
+        addEmails.add(4,Data.guestEmail);
+        addEmails.add(5,Data.apiUserEmail);
+        addEmails.add(6, Data.seoManagerEmail);
+        return addEmails;
     }
 
     @BeforeMethod
@@ -103,12 +115,13 @@ public class RoleBasedAccessControl {
     public Object[] [] userEmails () {
         return new Object[][]{
                 //email, error message
-                {testUsersEmailsAndRoles.get(0)},
-                {testUsersEmailsAndRoles.get(1)},
-                {testUsersEmailsAndRoles.get(2)},
-                {testUsersEmailsAndRoles.get(3)},//manager
-                {testUsersEmailsAndRoles.get(4)},
-                {testUsersEmailsAndRoles.get(5)}
+                {testUsersEmails.get(0)},
+                {testUsersEmails.get(1)},
+                {testUsersEmails.get(2)},
+                {testUsersEmails.get(3)},//manager
+                {testUsersEmails.get(4)},
+                {testUsersEmails.get(5)},
+                {testUsersEmails.get(6)}
         };
     }
 
@@ -239,6 +252,16 @@ public class RoleBasedAccessControl {
         groups.newGroupNameField.isDisplayed();
         groups.newGroupNameField.sendKeys("check");
     }
+
+    @Test (dataProvider = "userEmails")
+    public void usersCanCreateGroup(String email){
+        loginPE.openAndLogin(email, Data.password);
+        loginPE.linkToGroups.isDisplayed();
+        groups = PageFactory.initElements(driver, Groups.class);
+        groups.open();
+        groups.linkToCreateNewGroup.isDisplayed();
+    }
+
 
     @AfterMethod(alwaysRun=true)
     public void tearDown() {

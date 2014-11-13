@@ -8,6 +8,7 @@ public class Data {
     public static String developerEmail = "js_devloper@s1omers.ku";
     public static String seoAdminEmail = "js_seoadmin@s1omers.ku";
     public static String seoEmail = "js_seo@s1omers.ku";
+    public static String seoManagerEmail = "js_seomanager@s1omers.ku";
     public static String managerEmail = "js_manager@s1omers.ku";
     public static String apiUserEmail = "js_apiuser@s1omers.ku";
     public static String guestEmail = "js_guest@s1omers.ku";
