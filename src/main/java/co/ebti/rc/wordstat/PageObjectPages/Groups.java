@@ -48,6 +48,33 @@ public class Groups extends Page {
     @FindBy(id = "group_name")
     public WebElement newGroupNameField;
 
+    @FindBy(id = "group_category_id_chosen")
+    public WebElement newGroupCategory;
+
+    @FindBy(id = "group_type")
+    public WebElement newGroupAssembledOrNot;
+
+    @FindBy(name = "commit")
+    public WebElement saveNewGroupButton;
+
+    @FindBy(linkText = "Cancel")
+    public WebElement cancelNewGroupCreationButton;
+
+    @FindBy(css = "i.icon-trash")
+    public WebElement removeGroup;
+
+    @FindBy(linkText = "QA_AutoTestGroup_QA")
+    public WebElement linkTo_QA_AutoTestGroup_QA;
+
+    @FindBy(css = "i.icon-chevron-right")
+    public WebElement goToTheNewGroup;
+
+    @FindBy(css = "i.icon-edit")
+    public WebElement editGroup;
+
+    @FindBy(id = "delete_template")
+    public WebElement resetAnchorFormButton;
+
 
     @Override
     public void open() {

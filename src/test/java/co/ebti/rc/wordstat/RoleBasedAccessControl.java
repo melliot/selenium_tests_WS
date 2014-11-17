@@ -5,9 +5,10 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.*;
 
+import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
@@ -32,8 +33,8 @@ public class RoleBasedAccessControl {
     public void createTestUsers(){
         testUsersRoles = addRoles(testUsersRoles);
         testUsersEmails = addEmails(testUsersEmails);
-
-
+        int rolesNumber = 7;
+/*
         driver = new FirefoxDriver();
         loginPE = PageFactory.initElements(driver, Login.class);
         loginPE.openAndLogin();
@@ -41,7 +42,8 @@ public class RoleBasedAccessControl {
         accountsPE = PageFactory.initElements(driver, Accounts.class);
         accountsPE.open();
 
-        for(int i =0,f = 0; i < 7; i++){
+        //replace for to iterator.hasNext
+        for(int i =0,f = 0; i < rolesNumber; i++){
             if(accountsPE.textOnThePageContains(testUsersEmails.get(i))==true){
                 System.out.println("Test user with email +"+testUsersEmails.get(i)+"+ already created");
                 f++;
@@ -56,7 +58,8 @@ public class RoleBasedAccessControl {
             };}
         }
 
-        for(int i = 0; i < 7; i++) {
+        //replace for to iterator.hasNext
+        for(int i = 0; i < rolesNumber; i++) {
             accountsPE.addNewAccount();
             accountsPE.accountEmail.sendKeys(testUsersEmails.get(i));
             accountsPE.accountName.sendKeys(Data.nameJohn);
@@ -74,10 +77,12 @@ public class RoleBasedAccessControl {
             accountsPE.textOnThePageContains("User created");
             accountsPE.saveButton.click();
         }
-        for(int i = 0; i < 7; i++) {
+
+        //replace for to iterator.hasNext
+        for(int i = 0; i < rolesNumber; i++) {
             assertEquals("Check that the account has been successfully created in the system", true, accountsPE.textOnThePageContains(testUsersEmails.get(i)));
         }
-        if (driver != null) driver.quit();
+        if (driver != null) driver.quit();*/
     }
 
     public ArrayList<String> addRoles(ArrayList<String> addRoles){
@@ -240,6 +245,16 @@ public class RoleBasedAccessControl {
         groups.searchGroupCollectionType.isDisplayed();
         groups.perPage.isDisplayed();
         groups.find.isDisplayed();
+    }
+
+    //Improve logic for seomanager
+    @Test (dataProvider = "userEmails")
+    public void usersCanCreateGroup(String email) throws AWTException {
+        loginPE.openAndLogin(email, Data.password);
+        loginPE.linkToGroups.isDisplayed();
+        groups = PageFactory.initElements(driver, Groups.class);
+        groups.open();
+        //Manager and Guest can't create new groups
         if (email.equals(Data.managerEmail)==true||email.equals(Data.guestEmail)){
             try {
                 assertEquals("Manager and Guest role can create new group",false, groups.linkToCreateNewGroup.isDisplayed());
@@ -247,20 +262,83 @@ public class RoleBasedAccessControl {
             } catch (NoSuchElementException e){
                 assertEquals("Manager and Guest role can't create new group. Visibility of create new group link", false, e.toString().contains("Unable to locate element: {\"method\":\"id\",\"selector\":\"new\"}"));}
         }
+
+
+        //Seek and delete if find test group.
+        if(groups.textOnThePageContains("QA_AutoTestGroup_QA")==true){
+            groups.linkTo_QA_AutoTestGroup_QA.click();
+            groups.resetAnchorFormButton.isDisplayed();
+
+            //SEOManager don't have ability to edit\remove group
+            if (Data.seoManagerEmail.equals(email)==true){
+                try {
+                    assertEquals(false, groups.removeGroup.isDisplayed());
+                }
+                catch (Exception e){assertEquals(true, e.toString().contains("NoSuchElementException: Unable to locate element:"));return;}
+            }
+
+            groups.removeGroup.isDisplayed();
+            groups.removeGroup.click();
+            driver.switchTo().alert().accept();
+            groups.waitForElementVisible10Sec(groups.searchGroup);
+            assertEquals("Before test we need to check that test group didn't exist in the system", false, groups.textOnThePageContains("QA_AutoTestGroup_QA"));
+        }
+
         groups.linkToCreateNewGroup.isDisplayed();
         groups.linkToCreateNewGroup.click();
+
+        //Element check, then add some info and cancel. After canceling say 'ok' to popup window
         groups.newGroupNameField.isDisplayed();
-        groups.newGroupNameField.sendKeys("check");
+        groups.cancelNewGroupCreationButton.isDisplayed();
+        groups.saveNewGroupButton.isDisplayed();
+        groups.newGroupNameField.sendKeys("QA_AutoTestGroup_QA");
+        groups.cancelNewGroupCreationButton.click();
+        driver.switchTo().alert().accept();
+        groups.waitForElementVisible10Sec(groups.searchGroup);
+
+        //Create new group
+        groups.linkToCreateNewGroup.click();
+        groups.newGroupNameField.sendKeys("QA_AutoTestGroup_QA");
+        groups.textOnThePageContains("can't be blank");
+        groups.newGroupCategory.click();
+        groups.saveNewGroupButton.isDisplayed();
+
+        //Robot can emulate keyboard and mouse. In this step we choose 'RU' category
+        Robot robot = new Robot();
+        robot.keyPress(KeyEvent.VK_DOWN);
+        robot.delay(300);
+        robot.keyPress(KeyEvent.VK_ENTER);
+        robot.keyRelease(KeyEvent.VK_ENTER);
+        robot.delay(300);
+
+        //Save new group
+        groups.saveNewGroupButton.click();
+        groups.waitForElementVisible10Sec(groups.goToTheNewGroup);
+        System.out.println(driver.getCurrentUrl());
+        groups.goToTheNewGroup.click();
+        groups.resetAnchorFormButton.isDisplayed();
+
+        //Edit group
+        groups.open();
+        groups.linkTo_QA_AutoTestGroup_QA.isDisplayed();
+        groups.linkTo_QA_AutoTestGroup_QA.click();
+        groups.editGroup.click();
+        groups.newGroupNameField.isDisplayed();
+        groups.newGroupCategory.isDisplayed();
+
+        //DeleteCreatedGroup
+        groups.open();
+        groups.searchGroup.isDisplayed();
+        groups.linkTo_QA_AutoTestGroup_QA.click();
+        assertEquals("We must be in the QA_AutoTestGroup_QA, but current URL = "+driver.getCurrentUrl(),true, groups.textOnThePageContains("Anchor file"));
+        groups.removeGroup.isDisplayed();
+        groups.removeGroup.click();
+        driver.switchTo().alert().accept();
+        groups.waitForElementVisible10Sec(groups.searchGroup);
+        assertEquals("Test group successfully deleted", false, groups.textOnThePageContains("QA_AutoTestGroup_QA"));
     }
 
-    @Test (dataProvider = "userEmails")
-    public void usersCanCreateGroup(String email){
-        loginPE.openAndLogin(email, Data.password);
-        loginPE.linkToGroups.isDisplayed();
-        groups = PageFactory.initElements(driver, Groups.class);
-        groups.open();
-        groups.linkToCreateNewGroup.isDisplayed();
-    }
+
 
 
     @AfterMethod(alwaysRun=true)
@@ -271,7 +349,7 @@ public class RoleBasedAccessControl {
 
     @AfterSuite(alwaysRun=true)
     public void deleteTestUsers(){
-        driver = new FirefoxDriver();
+/*        driver = new FirefoxDriver();
         loginPE = PageFactory.initElements(driver, Login.class);
         loginPE.openAndLogin();
         loginPE.editProfileLink.isDisplayed();
@@ -282,6 +360,6 @@ public class RoleBasedAccessControl {
             accountsPE.deleteJohnSmith.click();
             driver.switchTo().alert().accept();
         }
-        if (driver != null) driver.quit();
+        if (driver != null) driver.quit();*/
     }
 }
