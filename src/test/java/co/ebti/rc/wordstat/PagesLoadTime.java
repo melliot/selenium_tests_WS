@@ -30,9 +30,11 @@ public class PagesLoadTime {
     }
 
     @Test
-    public void loginPageLoadTime(){
+    public void loginPrfntujhbbageLoadTime(){
         int counter = 0;
         int result = 0;
+        loginPageElements.linkToLogout.click();
+        loginPageElements.emeilField.isDisplayed();
         while (counter<20) {
             //Open page and start timer
             loginPageElements.open();

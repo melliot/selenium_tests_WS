@@ -46,6 +46,9 @@ public class Login extends Page {
     @FindBy(linkText = "Collection status")
     public WebElement linkToCollectionStatus;
 
+    @FindBy(css = "i.icon-off")
+    public WebElement linkToLogout;
+
     @Override
     public void open() {
         driver.get(HOSTNAME);

@@ -66,7 +66,7 @@ public class Groups extends Page {
     @FindBy(linkText = "QA_AutoTestGroup_QA")
     public WebElement linkTo_QA_AutoTestGroup_QA;
 
-    @FindBy(css = "i.icon-chevron-right")
+    @FindBy(xpath = "//a[contains(text(),'Go to group')]")
     public WebElement goToTheNewGroup;
 
     @FindBy(css = "i.icon-edit")
