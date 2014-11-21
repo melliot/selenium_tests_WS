@@ -38,11 +38,8 @@ public class Groups extends Page {
     @FindBy(partialLinkText = "Collect wrong weights for")
     public WebElement collectWrongWeightsButton;
 
-
-
     @FindBy(linkText = "/groups")
     public WebElement linkToGroups;
-
 
     //new group elements
     @FindBy(id = "group_name")
@@ -62,6 +59,9 @@ public class Groups extends Page {
 
     @FindBy(css = "i.icon-trash")
     public WebElement removeGroup;
+
+    @FindBy(linkText = "QA_AutoTestAssembledGroup_QA")
+    public WebElement linkTo_QA_AutoTestAssembledGroup_QA;
 
     @FindBy(linkText = "QA_AutoTestGroup_QA")
     public WebElement linkTo_QA_AutoTestGroup_QA;

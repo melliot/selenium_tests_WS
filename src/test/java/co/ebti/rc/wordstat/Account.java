@@ -86,7 +86,7 @@ public class Account {
     }
 
     @Test (dataProvider = "accountDataList")
-    public void addNewAccountWithoutSomeEmptyFields(String email, String name, String userSurname, String password, String passwordConfirm, String errorMessage, String aboutError) throws InterruptedException {
+    public void addNewAccountWithoutSomeMandatoryFields(String email, String name, String userSurname, String password, String passwordConfirm, String errorMessage, String aboutError) throws InterruptedException {
 
         accountPE = PageFactory.initElements(driver, Accounts.class);
         accountPE.open();
