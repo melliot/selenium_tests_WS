@@ -25,21 +25,26 @@ public class RoleBasedAccessControl {
     private Login loginPE;
     private Categories categories;
     private Groups groups;
+    private Group group;
     private ParserSettings parserSettings;
     private Accounts accountsPE;
     private ArrayList<String> testUsersEmails;
     private ArrayList<String> testUsersRoles;
+    private String groupForInsideCheck;
 
 
     @BeforeSuite
-    public void createTestUsers(){
+    public void createTestUsers() throws AWTException {
         testUsersRoles = addRoles(testUsersRoles);
         testUsersEmails = addEmails(testUsersEmails);
-        int rolesNumber = 7;
-        /*driver = new FirefoxDriver();
+        int rolesNumber = 7;/*
+        driver = new FirefoxDriver();
         loginPE = PageFactory.initElements(driver, Login.class);
         loginPE.openAndLogin();
         loginPE.editProfileLink.isDisplayed();
+        groupForInsideCheck = createTestGroupBySeoAdmin();
+
+
         accountsPE = PageFactory.initElements(driver, Accounts.class);
         accountsPE.open();
 
@@ -124,10 +129,10 @@ public class RoleBasedAccessControl {
                 {testUsersEmails.get(0)},
                 {testUsersEmails.get(1)},
                 {testUsersEmails.get(2)},
-                {testUsersEmails.get(3)},//manager
-                {testUsersEmails.get(4)},
-                {testUsersEmails.get(5)},
-                {testUsersEmails.get(6)}
+                //{testUsersEmails.get(3)},//manager
+                //{testUsersEmails.get(4)},//guest
+                {testUsersEmails.get(5)},//apiuser
+                //{testUsersEmails.get(6)}//seomanager
         };
     }
 
@@ -150,6 +155,7 @@ public class RoleBasedAccessControl {
         categories.editRuCategory.click();
         categories.cEcategoryName.isDisplayed();
         categories.cEparentDropDownList.isDisplayed();
+
         categories.cEcancelButton.isDisplayed();
         categories.cErtb.isDisplayed();
         categories.cEsaveButton.isDisplayed();
@@ -224,7 +230,7 @@ public class RoleBasedAccessControl {
             accountsPE.generateAPIKey.click();
             accountsPE.user_secret_token.isDisplayed();
         }
-        if (email.equals(Data.guestEmail)||email.equals(Data.managerEmail)||email.equals(Data.seoEmail)) {
+        if (email.equals(Data.guestEmail)||email.equals(Data.managerEmail)||email.equals(Data.seoEmail)||email.equals(Data.seoManagerEmail)) {
             try {
             accountsPE.apiKeyLink.isDisplayed();}
             catch (NoSuchElementException e){assertEquals(true, e.toString().contains("org.openqa.selenium.NoSuchElementException: Unable to locate element: {\"method\":\"partial link text\",\"selector\":\"API key\"}"));}
@@ -366,6 +372,174 @@ public class RoleBasedAccessControl {
 
         //DeleteCreatedGroup
         deleteGroup(groups.linkTo_QA_AutoTestGroup_QA, testGroupName);
+    }
+
+    @Test (dataProvider = "userEmails")
+    public void userCanSeeTabsWithinTheGroup(String email) throws AWTException {
+        //Login to the app and go to the groups
+        loginPE.openAndLogin(email, Data.password);
+        loginPE.linkToGroups.isDisplayed();
+        groups = PageFactory.initElements(driver, Groups.class);
+        groups.open();
+
+        //Go to test group
+        groups.linkTo_QA_AutoTestInsideGroup_QA.isDisplayed();
+        groups.linkTo_QA_AutoTestInsideGroup_QA.click();
+        groups.resetAnchorFormButton.isDisplayed();
+
+        //Check tabs
+        group = PageFactory.initElements(driver, Group.class);
+        //For manager
+        if (email.equals(Data.managerEmail)){
+            group.list.isDisplayed();
+            group.keywordsTree.isDisplayed();
+            group.keywordsTree.click();
+            group.newPresetName.isDisplayed();
+            group.thematicRootPhrases.isDisplayed();
+            group.addConjunctionsAndPrepositions.isDisplayed();
+            group.textOnThePageContains("name"); group.textOnThePageContains("generation"); group.textOnThePageContains("aliases");
+            group.textOnThePageContains("created"); group.textOnThePageContains("permutations & morphology");
+            group.textOnThePageContains("manual changes"); group.textOnThePageContains("rollback");
+            group.textOnThePageContains("Keywords tree settings"); group.textOnThePageContains("Buzzwords");
+            group.textOnThePageContains("Aliases:"); group.textOnThePageContains("Thematic root phrases::");
+            group.uniqueTree.click();
+            group.newPresetName.isDisplayed();
+            group.thematicRootPhrases.isDisplayed();
+            group.addConjunctionsAndPrepositions.isDisplayed();
+            group.textOnThePageContains("name"); group.textOnThePageContains("generation"); group.textOnThePageContains("aliases");
+            group.textOnThePageContains("created"); group.textOnThePageContains("permutations & morphology");
+            group.textOnThePageContains("manual changes"); group.textOnThePageContains("rollback");
+            group.textOnThePageContains("Keywords tree settings"); group.textOnThePageContains("Buzzwords");
+            group.textOnThePageContains("Aliases:"); group.textOnThePageContains("Thematic root phrases::");
+            group.list.click();
+            assertEquals("Manager can't see 'Anchor File'", true, group.isElementNotPresent(group.anchorFile));
+            assertEquals("Manager can't see 'Import/Export'", true, group.isElementNotPresent(group.importExport));
+            assertEquals("Manager can't see 'Stop Words'", true, group.isElementNotPresent(group.stopWords));
+            return;
+        }
+        //For guest & seoManager
+        if (email.equals(Data.guestEmail)||email.equals(Data.seoManagerEmail)) {
+            assertEquals("Guest/seoManager can't see 'Import/Export' tab", true, group.isElementNotPresent(group.importExport));
+            assertEquals("Guest/seoManager can't see 'Stop Words' tab", true, group.isElementNotPresent(group.stopWords));
+            assertEquals("Guest/seoManager can't see 'List' tab", true, group.isElementNotPresent(group.list));
+            assertEquals("Guest/seoManager can't see 'Keywords Tree' tab", true, group.isElementNotPresent(group.keywordsTree));
+            if (email.equals(Data.seoManagerEmail)) {
+                group.resetAnchorFormButton.isDisplayed(); group.templateNameField.isDisplayed();
+                group.loadTemplateMenu.isDisplayed(); group.saveTemplateButton.isDisplayed();
+                group.addPreposition.isDisplayed(); group.addDomain.isDisplayed();
+                group.mixOneMoreGroup.isDisplayed(); group.addBuzzwords.isDisplayed();
+                group.downloadButton.isDisplayed();group.previewButton.isDisplayed();
+                group.searchResultExcludeField.isDisplayed(); group.searchResultField.isDisplayed();
+                group.searchResultWeightFilterField.isDisplayed(); group.findButton.isDisplayed();
+                group.resultsPerPageMenu.isDisplayed(); group.toggleAllSuggests.isDisplayed();
+                group.sortByCollectionType.isDisplayed(); group.sortByExactWeight.isDisplayed();
+                group.sortByFullExactWeight.isDisplayed(); group.sortByWeight.isDisplayed();
+                return;
+            }
+            assertEquals("Guest can't see 'Anchor File' tab", true, group.isElementNotPresent(group.anchorFile));
+            return;
+        }
+
+        group.list.isDisplayed();
+        group.importExport.isDisplayed();
+        group.keywordsTree.isDisplayed();
+        group.stopWords.isDisplayed();
+
+        //check anchor file elements
+        group.resetAnchorFormButton.isDisplayed(); group.templateNameField.isDisplayed();
+        group.loadTemplateMenu.isDisplayed(); group.saveTemplateButton.isDisplayed();
+        group.addPreposition.isDisplayed(); group.addDomain.isDisplayed();
+        group.mixOneMoreGroup.isDisplayed(); group.addBuzzwords.isDisplayed();
+        group.downloadButton.isDisplayed();group.previewButton.isDisplayed();
+        group.searchResultExcludeField.isDisplayed(); group.searchResultField.isDisplayed();
+        group.searchResultWeightFilterField.isDisplayed(); group.findButton.isDisplayed();
+        group.resultsPerPageMenu.isDisplayed(); group.toggleAllSuggests.isDisplayed();
+        group.sortByCollectionType.isDisplayed(); group.sortByExactWeight.isDisplayed();
+        group.sortByFullExactWeight.isDisplayed(); group.sortByWeight.isDisplayed();
+
+        //check Keywords tree elements
+        group.keywordsTree.click();
+        group.newPresetName.isDisplayed();
+        group.thematicRootPhrases.isDisplayed();
+        group.addConjunctionsAndPrepositions.isDisplayed();
+        group.textOnThePageContains("name"); group.textOnThePageContains("generation"); group.textOnThePageContains("aliases");
+        group.textOnThePageContains("created"); group.textOnThePageContains("permutations & morphology");
+        group.textOnThePageContains("manual changes"); group.textOnThePageContains("rollback");
+        group.textOnThePageContains("Keywords tree settings"); group.textOnThePageContains("Buzzwords");
+        group.textOnThePageContains("Aliases:"); group.textOnThePageContains("Thematic root phrases::");
+        group.uniqueTree.click();
+        group.newPresetName.isDisplayed();
+        group.thematicRootPhrases.isDisplayed();
+        group.addConjunctionsAndPrepositions.isDisplayed();
+        group.textOnThePageContains("name"); group.textOnThePageContains("generation"); group.textOnThePageContains("aliases");
+        group.textOnThePageContains("created"); group.textOnThePageContains("permutations & morphology");
+        group.textOnThePageContains("manual changes"); group.textOnThePageContains("rollback");
+        group.textOnThePageContains("Keywords tree settings"); group.textOnThePageContains("Buzzwords");
+        group.textOnThePageContains("Aliases:"); group.textOnThePageContains("Thematic root phrases::");
+
+        //Check List elements
+        group.list.click();
+        group.blacklistSuggestsField.isDisplayed();
+        group.updateBlacklistSuggestsButton.isDisplayed(); group.searchResultWeightFilterField.isDisplayed();
+        group.searchResultField.isDisplayed(); group.searchResultExcludeField.isDisplayed();
+        group.sortByExactWeight.isDisplayed(); group.resultsPerPageMenu.isDisplayed();
+        group.toggleAllSuggests.isDisplayed();
+        group.sortByCollectionType.isDisplayed(); group.sortByExactWeight.isDisplayed();
+        group.sortByFullExactWeight.isDisplayed(); group.sortByWeight.isDisplayed();
+
+        //Check Import/Export
+        group.importExport.click();
+        group.uploadUpdate.isDisplayed(); group.uploadReplace.isDisplayed();
+        group.uploadButtonIE.isDisplayed(); group.downloadButtonIE.isDisplayed();
+        group.searchResultWeightFilterField.isDisplayed();
+        group.searchResultField.isDisplayed(); group.searchResultExcludeField.isDisplayed();
+        group.sortByExactWeight.isDisplayed(); group.resultsPerPageMenu.isDisplayed();
+        group.toggleAllSuggests.isDisplayed();
+        group.sortByCollectionType.isDisplayed(); group.sortByExactWeight.isDisplayed();
+        group.sortByFullExactWeight.isDisplayed(); group.sortByWeight.isDisplayed();
+
+        //Stop words page elements
+        group.stopWords.click();
+        group.mswStopWordField.isDisplayed(); group.mswAddStopWord.isDisplayed();
+        group.mswHideAllLocal.isDisplayed();
+        group.automaticStopWords.click();
+        group.aswAddToStopWords.isDisplayed(); group.aswRebuildRating.isDisplayed();
+        group.wordsTree.click(); group.wtBuildTreeButton.isDisplayed();
+    }
+
+    public String createTestGroupBySeoAdmin() throws AWTException {
+        String testGroupName = "QA_AutoTestInsideGroup_QA";
+        //Create new group steps
+        //1. Login to the app, go to the groups and click to create new group
+/*        loginPE.openAndLogin(Data.seoAdminEmail, Data.password);
+        loginPE.linkToGroups.isDisplayed();*/
+        groups = PageFactory.initElements(driver, Groups.class);
+        groups.open();
+        groups.linkToCreateNewGroup.isDisplayed();
+        //2. Seek and delete if find test group.
+        if(groups.textOnThePageContains(testGroupName)){
+            deleteGroup(groups.linkTo_QA_AutoTestInsideGroup_QA, testGroupName);
+        }
+        //3. Create new group
+        groups.linkToCreateNewGroup.click();
+        groups.saveNewGroupButton.isDisplayed();
+        groups.newGroupNameField.sendKeys(testGroupName);
+
+        //4. Robot can emulate keyboard and mouse. In this step we choose 'RU' category
+        groups.newGroupCategory.click();
+        Robot robot = new Robot();
+        robot.keyPress(KeyEvent.VK_DOWN);
+        robot.delay(300);
+        robot.keyPress(KeyEvent.VK_ENTER);
+        robot.keyRelease(KeyEvent.VK_ENTER);
+        robot.delay(300);
+
+        //5. Save new group
+        groups.saveNewGroupButton.click();
+        groups.waitForElementVisible10Sec(groups.goToTheNewGroup);
+        groups.goToTheNewGroup.click();
+        groups.resetAnchorFormButton.isDisplayed();
+        return testGroupName;
     }
 
     public void deleteGroup(WebElement linkToTheGroup, String groupName){

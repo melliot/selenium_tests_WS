@@ -240,12 +240,20 @@ public class Get {
 
         //Send Get to URL and retrieve result
         HashMap result = sendGetTo(url);
+        String statusCodeResponce = result.get("statusCode").toString();
+        String responceBodyStr = result.get("responseBody").toString();
+
 
         //Check statusCode & body for correct values
-        assertEquals("Expected 200, but got "+ result.get("statusCode").toString(), true, result.get("statusCode").toString().equals("200"));
+        assertEquals("Expected 200, but got "+ statusCodeResponce + "("+responceBodyStr+")", true, statusCodeResponce.equals("200")||statusCodeResponce.equals("417"));
+
+        if (statusCodeResponce.equals("417")){
+            assertEquals(responceBodyStr.contains("\"error\":\"tree for group")&&responceBodyStr.contains("is not build yet"),true);
+            return;
+        }
 
         //Check some values from first record
-        JSONArray responseBody = new JSONArray(result.get("responseBody").toString());
+        JSONArray responseBody = new JSONArray(responceBodyStr);
         String firstElementOfResponseArray = responseBody.get(0).toString();
 
         assertEquals("First record contain text: 'suggested', 'phrase', 'alias_phrases'", firstElementOfResponseArray

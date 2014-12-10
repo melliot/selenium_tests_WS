@@ -30,7 +30,7 @@ public class PagesLoadTime {
     }
 
     @Test
-    public void loginPrfntujhbbageLoadTime(){
+    public void loginPageLoadTime(){
         int counter = 0;
         int result = 0;
         loginPageElements.linkToLogout.click();
