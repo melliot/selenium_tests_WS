@@ -23,14 +23,14 @@ public class Categories extends Page {
     @FindBy(name = "commit")
     public WebElement find;
 
-    @FindBy(linkText = "Create new category")
+    @FindBy(xpath = "//a[contains(text(),'Create new category')]")
     public WebElement createNewCategory;
 
     @FindBy(linkText = "RU")
     public WebElement ruCategory;
 
     @FindBy(linkText = "Edit")
-    public WebElement editRuCategory;
+    public WebElement editCategory;
 
     @FindBy(linkText = "filmler (movies)")
     public WebElement linkTextFromTR;
@@ -42,10 +42,33 @@ public class Categories extends Page {
     @FindBy(id = "category_parent_id")
     public WebElement cEparentDropDownList;
 
+    //group_category_id_chosen
+    @FindBy(id = "category_se_settings_attributes_language_chosen")
+    public WebElement cELanguageDropDownMenu;
+
+    //Modern Greek language
+    @FindBy(xpath = "//li[contains(text(),'3')]")
+    public WebElement cEChooseGreekLanguageElement;
+
+    //Modern Greek language
+    @FindBy(xpath = "//li[contains(text(),'Ukrainian')]")
+    public WebElement cEChooseGreekkkkkLanguageElement;
+
+    @FindBy(id = "category_se_settings_attributes_country_chosen")
+    public WebElement cEChooseCountryDropDownMenu;
+
+    //Modern Greek language
+    @FindBy(xpath = "//li[contains(text(),'Colombia')]")
+    public WebElement cEChooseColombiaCountryElement;
+
+    //Modern Greek language
+    @FindBy(xpath = "//li[contains(text(),'Barbados')]")
+    public WebElement cEChooseBarbadosCountryElement;
+
     @FindBy(id = "category_rtb_name")
     public WebElement cErtb;
 
-    @FindBy(id = "category__se_settings_attributes_engine")
+    @FindBy(id = "category_se_settings_attributes_engine")
     public WebElement cEselectEngine;
 
     @FindBy(name = "commit")
@@ -53,6 +76,19 @@ public class Categories extends Page {
 
     @FindBy(linkText = "Cancel")
     public WebElement cEcancelButton;
+
+    @FindBy(id = "category_se_settings_attributes_engine")
+    public WebElement cEEngine;
+
+    @FindBy(linkText = "QA_Autotest_Category_QA")
+    public WebElement linkToQA_Autotest_Category_QA;
+
+    @FindBy(linkText = "QA_Autotest_Category_Changed_QA")
+    public WebElement linkToQA_Autotest_Category_Changed_QA;
+
+    //inside category
+    @FindBy(xpath = "//a[contains(text(),'Remove Category')]")
+    public WebElement removeCategory;
 
     @Override
     public void open() {

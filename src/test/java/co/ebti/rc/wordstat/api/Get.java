@@ -36,9 +36,9 @@ public class Get {
     private JSONObject someGroup;
 
 
-    @Test
-    public void apiGetGroups() throws Exception {
-        String url = Hostname.getHostName() + getGroupsApiLink +"?secret_token="+ Data.token;
+    @Test (dataProvider = "trueOrFalse")
+    public void apiGetGroups(String uniqOrNot) throws Exception {
+        String url = Hostname.getHostName() + getGroupsApiLink +"?secret_token="+ Data.token + "&assembled=" + uniqOrNot;
 
         //Send Get to URL and retrieve result
         HashMap result = sendGetTo(url);
@@ -55,7 +55,47 @@ public class Get {
 
         //GroupID needed for other tests
         someGroup = (JSONObject) responseBody.get(0);
+        System.out.println(url);
+
         System.out.println(responseBody.toString());
+    }
+
+    @Test //(dependsOnMethods = "apiGetGroups")
+    public void apiGetGroupTrees() throws Exception {
+        //String url = Hostname.getHostName() + getGroupsApiLink +"?secret_token="+ Data.token;
+        String url = Hostname.getHostName() + "/api/v2/trees.json?secret_token=" + "bMuIW136cE4PyhjElgXgwrhilgSl6KZMb18vuvos" +"&group_id=8b5876804d4c01328917002590e75102";
+//8b5876804d4c01328917002590e75102
+        //Send Get to URL and retrieve result
+        HashMap result = sendGetTo(url);
+
+        //Check statusCode & body for correct values
+        assertEquals("Expected 200, but got " + result.get("statusCode").toString(), true, result.get("statusCode").toString().equals("200"));
+        JSONArray responseBody = new JSONArray(result.get("responseBody").toString());
+        //String firstElementOfResponseArray = responseBody.get(0).toString();
+        System.out.println(responseBody.toString());
+/*        assertEquals(responseBody.toString(), firstElementOfResponseArray
+                .contains("name") && firstElementOfResponseArray
+                .contains("keywords_count") && firstElementOfResponseArray
+                .contains("id"), true);*/
+    }
+
+    @Test //(dependsOnMethods = "apiGetGroups")
+    public void apiGetGroupTreeFromPreset() throws Exception {
+        //String url = Hostname.getHostName() + getGroupsApiLink +"?secret_token="+ Data.token;
+        String url = Hostname.getHostName() + "/api/v2/tree.json?secret_token=" + "bMuIW136cE4PyhjElgXgwrhilgSl6KZMb18vuvos" +"&group_id=8b5876804d4c01328917002590e75102&unique=false&id=573";
+//8b5876804d4c01328917002590e75102
+        //Send Get to URL and retrieve result
+        HashMap result = sendGetTo(url);
+
+        //Check statusCode & body for correct values
+        assertEquals("Expected 200, but got " + result.get("statusCode").toString(), true, result.get("statusCode").toString().equals("200"));
+        JSONArray responseBody = new JSONArray(result.get("responseBody").toString());
+        //String firstElementOfResponseArray = responseBody.get(0).toString();
+        System.out.println(responseBody.toString());
+/*        assertEquals(responseBody.toString(), firstElementOfResponseArray
+                .contains("name") && firstElementOfResponseArray
+                .contains("keywords_count") && firstElementOfResponseArray
+                .contains("id"), true);*/
     }
 
     @Test
@@ -75,6 +115,8 @@ public class Get {
                 .contains("templates") && firstElementOfResponseArray
                 .contains("name") && firstElementOfResponseArray
                 .contains("id"), true);
+
+        System.out.println(result.get("responseBody").toString());
     }
 
     @Test
