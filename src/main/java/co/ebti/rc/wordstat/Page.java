@@ -1,5 +1,6 @@
 package co.ebti.rc.wordstat;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -198,6 +199,11 @@ public abstract class Page {
 
     public boolean textOnThePageContains(String text){
         return driver.getPageSource().contains(text);
+    }
+
+    public void goToTheLinkWhichContainText(String testCategoryName){
+        driver.findElement(By.linkText(testCategoryName)).isDisplayed();
+        driver.findElement(By.linkText(testCategoryName)).click();
     }
 
     public WebDriver getDriver() {

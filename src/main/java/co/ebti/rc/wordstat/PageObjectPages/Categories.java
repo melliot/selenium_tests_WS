@@ -39,6 +39,10 @@ public class Categories extends Page {
     @FindBy(id = "category_name")
     public WebElement cEcategoryName;
 
+
+    @FindBy(xpath = "//a[contains(text(),'Add Subcategory')]")
+    public WebElement addSubCategoryLink;
+
     @FindBy(id = "category_parent_id")
     public WebElement cEparentDropDownList;
 

@@ -63,7 +63,7 @@ public class Get {
     @Test //(dependsOnMethods = "apiGetGroups")
     public void apiGetGroupTrees() throws Exception {
         //String url = Hostname.getHostName() + getGroupsApiLink +"?secret_token="+ Data.token;
-        String url = Hostname.getHostName() + "/api/v2/trees.json?secret_token=" + "bMuIW136cE4PyhjElgXgwrhilgSl6KZMb18vuvos" +"&group_id=8b5876804d4c01328917002590e75102";
+        String url = Hostname.getHostName() + "/api/v2/trees.json?secret_token=" + "bMuIW136cE4PyhjElgXgwrhilgSl6KZMb18vuvos" +"&group_id=75ff0ba05ec801328a4f002590e75102";
 //8b5876804d4c01328917002590e75102
         //Send Get to URL and retrieve result
         HashMap result = sendGetTo(url);
@@ -82,7 +82,7 @@ public class Get {
     @Test //(dependsOnMethods = "apiGetGroups")
     public void apiGetGroupTreeFromPreset() throws Exception {
         //String url = Hostname.getHostName() + getGroupsApiLink +"?secret_token="+ Data.token;
-        String url = Hostname.getHostName() + "/api/v2/tree.json?secret_token=" + "bMuIW136cE4PyhjElgXgwrhilgSl6KZMb18vuvos" +"&group_id=8b5876804d4c01328917002590e75102&unique=false&id=573";
+        String url = Hostname.getHostName() + "/api/v2/tree.json?secret_token=" + "bMuIW136cE4PyhjElgXgwrhilgSl6KZMb18vuvos" +"&group_id=75ff0ba05ec801328a4f002590e75102&unique=false&id=605";
 //8b5876804d4c01328917002590e75102
         //Send Get to URL and retrieve result
         HashMap result = sendGetTo(url);

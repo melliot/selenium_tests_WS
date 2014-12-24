@@ -2,6 +2,7 @@ package co.ebti.rc.wordstat;
 
 import co.ebti.rc.wordstat.PageObjectPages.Categories;
 import co.ebti.rc.wordstat.PageObjectPages.Login;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.PageFactory;
@@ -9,7 +10,9 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 /**
  * Created by Korniev.Oleksandr on 17.12.2014.
@@ -30,22 +33,7 @@ public class Category {
 
     @Test
     public void createNewMainCategory(){
-        categories = PageFactory.initElements(driver, Categories.class);
-        categories.open();
-        categories.createNewCategory.isDisplayed();
-        categories.createNewCategory.click();
-
-        categories.cEcategoryName.sendKeys("QA_Autotest_Category_QA");
-        categories.cErtb.sendKeys("WSCyborg");
-        categories.cELanguageDropDownMenu.click();
-        categories.cEChooseGreekLanguageElement.click();
-        categories.cEChooseCountryDropDownMenu.click();
-        categories.cEChooseBarbadosCountryElement.click();
-        categories.cEsaveButton.click();
-
-        categories.waitForElementVisible10Sec(categories.linkToQA_Autotest_Category_QA);
-        categories.linkToQA_Autotest_Category_QA.isDisplayed();
-        categories.linkToQA_Autotest_Category_QA.click();
+        createMainCategoryAndGoIn("QA_Autotest_Category_QA");
     }
 
     @Test (dependsOnMethods = "createNewMainCategory")
@@ -105,6 +93,65 @@ public class Category {
 
         categories.linkTextFromTR.isDisplayed();
         assertEquals("Test category was deleted, must be 'true' but we got: " + categories.linkToQA_Autotest_Category_Changed_QA, true, categories.isElementNotPresent(categories.linkToQA_Autotest_Category_Changed_QA));
+    }
+
+    @Test
+    public void subcategory() throws InterruptedException {
+        //Create test category
+        String testCategoryName = "QA_Autotest_SubCategory_QA";
+        String testSubCategoryName = "QA_SubCategory_00";
+        createMainCategoryAndGoIn(testCategoryName);
+
+        //Go to the category
+        categories = PageFactory.initElements(driver, Categories.class);
+        categories.open();
+        categories.goToTheLinkWhichContainText(testCategoryName);
+
+        //Add subCategory
+        categories.addSubCategoryLink.isDisplayed();
+        categories.addSubCategoryLink.click();
+        categories.cEcategoryName.sendKeys(testSubCategoryName);
+        categories.cErtb.sendKeys("WSCyborg");
+        //Check inherited values of main category
+        assertTrue(categories.textOnThePageContains("Modern Greek (1453-)"));
+        assertTrue(categories.textOnThePageContains("Barbados"));
+        assertTrue(categories.textOnThePageContains("Google"));
+        categories.cEsaveButton.click();
+
+        //Go to the created subCategory and remove all test categories
+        categories.goToTheLinkWhichContainText(testSubCategoryName);
+        categories.goToTheLinkWhichContainText("Remove Category");
+        driver.switchTo().alert().accept();
+        //Check removed or not
+        categories.waitForElementVisible10Sec(categories.editCategory);
+        Thread.sleep(3000);
+        assertTrue(categories.textOnThePageContains("There are no subcategories. You may add some."));
+        assertFalse(categories.textOnThePageContains("testSubCategoryName"));
+        //Remove main category
+        categories.waitForElementVisible10Sec(categories.editCategory);
+        categories.goToTheLinkWhichContainText("Remove Category");
+        driver.switchTo().alert().accept();
+        assertFalse(categories.textOnThePageContains("testCategoryName"));
+    }
+
+
+    public void createMainCategoryAndGoIn(String groupName){
+        categories = PageFactory.initElements(driver, Categories.class);
+        categories.open();
+        categories.createNewCategory.isDisplayed();
+        categories.createNewCategory.click();
+
+        categories.cEcategoryName.sendKeys(groupName);
+        categories.cErtb.sendKeys("WSCyborg");
+        categories.cELanguageDropDownMenu.click();
+        categories.cEChooseGreekLanguageElement.click();
+        categories.cEChooseCountryDropDownMenu.click();
+        categories.cEChooseBarbadosCountryElement.click();
+        categories.cEsaveButton.click();
+
+        categories.waitForElementVisible10Sec(driver.findElement(By.linkText(groupName)));
+        driver.findElement(By.linkText(groupName)).isDisplayed();
+        driver.findElement(By.linkText(groupName)).click();
     }
 
     @AfterMethod(alwaysRun=true)
