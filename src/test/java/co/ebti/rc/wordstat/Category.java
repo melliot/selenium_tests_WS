@@ -96,7 +96,7 @@ public class Category {
     }
 
     @Test
-    public void subcategory() throws InterruptedException {
+    public void subCategoryCreateDelete() throws InterruptedException {
         //Create test category
         String testCategoryName = "QA_Autotest_SubCategory_QA";
         String testSubCategoryName = "QA_SubCategory_00";
@@ -136,8 +136,22 @@ public class Category {
 
 
     public void createMainCategoryAndGoIn(String groupName){
+        String testCategoryName1 = "QA_Autotest_Category_QA";
+        String testCategoryName2 = "QA_Autotest_SubCategory_QA";
+
         categories = PageFactory.initElements(driver, Categories.class);
         categories.open();
+        if(categories.textOnThePageContains(testCategoryName1)){
+            categories.goToTheLinkWhichContainText(testCategoryName1);
+            categories.goToTheLinkWhichContainText("Remove Category");
+            driver.switchTo().alert().accept();
+        }
+        if(categories.textOnThePageContains(testCategoryName2)){
+            categories.goToTheLinkWhichContainText(testCategoryName2);
+            categories.goToTheLinkWhichContainText("Remove Category");
+            driver.switchTo().alert().accept();
+        }
+        
         categories.createNewCategory.isDisplayed();
         categories.createNewCategory.click();
 

@@ -1,5 +1,6 @@
 package co.ebti.rc.wordstat.api;
 
+import co.ebti.rc.wordstat.Api;
 import co.ebti.rc.wordstat.Data;
 import co.ebti.rc.wordstat.Hostname;
 import org.apache.http.HttpResponse;
@@ -38,10 +39,10 @@ public class Get {
 
     @Test (dataProvider = "trueOrFalse")
     public void apiGetGroups(String uniqOrNot) throws Exception {
-        String url = Hostname.getHostName() + getGroupsApiLink +"?secret_token="+ Data.token + "&assembled=" + uniqOrNot;
+        //String url = Hostname.getHostName() + getGroupsApiLink +"?secret_token="+ Data.token + "&assembled=" + uniqOrNot;
 
         //Send Get to URL and retrieve result
-        HashMap result = sendGetTo(url);
+        HashMap result = sendGetTo(Api.getGroups(Data.token, uniqOrNot));
 
         //Check statusCode & body for correct values
         assertEquals("Expected 200, but got " + result.get("statusCode").toString(), true, result.get("statusCode").toString().equals("200"));
@@ -55,7 +56,7 @@ public class Get {
 
         //GroupID needed for other tests
         someGroup = (JSONObject) responseBody.get(0);
-        System.out.println(url);
+        System.out.println(Api.getGroups(Data.token));
 
         System.out.println(responseBody.toString());
     }
