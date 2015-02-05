@@ -72,13 +72,13 @@ public class ElementsOnPages {
         assertEquals("Page contains the block 'Search'", true, page.textOnThePageContains("<div class=\"span12\">"));
         assertEquals("Page contains the text 'name'",true, page.textOnThePageContains("name"));
         assertEquals("Page contains the text 'weight'", true, page.textOnThePageContains("weight"));
-        assertEquals("Page contains the text 'created at'",true, page.textOnThePageContains("created_at"));
-        assertEquals("Page contains the text 'updated at'", true, page.textOnThePageContains("updated_at"));
+        assertEquals("Page contains the text 'created at'",true, page.textOnThePageContains("Created"));
+        assertEquals("Page contains the text 'updated at'", true, page.textOnThePageContains("Finished"));
         assertEquals("Page contains the text 'Type'",true, page.textOnThePageContains("Type"));
         assertEquals("Page contains the text 'Actions'", true, page.textOnThePageContains("Actions"));
         assertEquals("Page contains the text 'Stop Words'",true, page.textOnThePageContains("Stop"));
         assertEquals("Page contains the text 'Collection state'", true, page.textOnThePageContains("Collection state"));
-        assertEquals("Page contains the text 'Started at'",true, page.textOnThePageContains("Started at"));
+        assertEquals("Page contains the text 'Started at'",true, page.textOnThePageContains("Started"));
         assertEquals("Page contains the text 'Collection duration'", true, page.textOnThePageContains("Collection duration"));
         assertEquals("Page contains the text 'Total collection time'",true, page.textOnThePageContains("Total collection time"));
         assertEquals("Page contains the text 'Collect wrong weights'",true, page.textOnThePageContains("Collect wrong weights for"));

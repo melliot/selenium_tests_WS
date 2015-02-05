@@ -31,19 +31,18 @@ public class Category {
         loginPageElements.editProfileLink.isDisplayed();
     }
 
-    @Test
+    @Test(groups = "category crud")
     public void createNewMainCategory(){
         createMainCategoryAndGoIn("QA_Autotest_Category_QA");
     }
 
-    @Test (dependsOnMethods = "createNewMainCategory")
+    @Test (groups = "category crud", dependsOnMethods = "createNewMainCategory")
     public void editMainCategory() throws InterruptedException {
         categories = PageFactory.initElements(driver, Categories.class);
         categories.open();
 
         //check test category and go in
-        categories.linkToQA_Autotest_Category_QA.isDisplayed();
-        categories.linkToQA_Autotest_Category_QA.click();
+        categories.goToTheLinkWhichContainText("QA_Autotest_Category_QA");
         categories.editCategory.click();
 
         assertEquals("Value must be, but we got: "+ categories.cEcategoryName.getAttribute("value"), true, categories.cEcategoryName.getAttribute("value").equals("QA_Autotest_Category_QA"));
@@ -79,7 +78,7 @@ public class Category {
         //assertEquals("After changes new value must be: 'Yandex'. but we got :" + categories.cEselectEngine.getText(), true, categories.cEselectEngine.getText().equals("Yandex"));
     }
 
-    @Test (dependsOnMethods = "editMainCategory")
+    @Test (groups = "category crud", dependsOnMethods = "editMainCategory")
     public void deleteMainCategory(){
         categories = PageFactory.initElements(driver, Categories.class);
         categories.open();
@@ -131,27 +130,19 @@ public class Category {
         categories.waitForElementVisible10Sec(categories.editCategory);
         categories.goToTheLinkWhichContainText("Remove Category");
         driver.switchTo().alert().accept();
-        assertFalse(categories.textOnThePageContains("testCategoryName"));
+        assertFalse(categories.textOnThePageContains(testCategoryName));
     }
 
 
     public void createMainCategoryAndGoIn(String groupName){
-        String testCategoryName1 = "QA_Autotest_Category_QA";
-        String testCategoryName2 = "QA_Autotest_SubCategory_QA";
-
         categories = PageFactory.initElements(driver, Categories.class);
         categories.open();
-        if(categories.textOnThePageContains(testCategoryName1)){
-            categories.goToTheLinkWhichContainText(testCategoryName1);
+        if(categories.textOnThePageContains(groupName)){
+            categories.goToTheLinkWhichContainText(groupName);
             categories.goToTheLinkWhichContainText("Remove Category");
             driver.switchTo().alert().accept();
         }
-        if(categories.textOnThePageContains(testCategoryName2)){
-            categories.goToTheLinkWhichContainText(testCategoryName2);
-            categories.goToTheLinkWhichContainText("Remove Category");
-            driver.switchTo().alert().accept();
-        }
-        
+
         categories.createNewCategory.isDisplayed();
         categories.createNewCategory.click();
 
@@ -173,3 +164,4 @@ public class Category {
         if (driver != null) driver.quit();
     }
 }
+

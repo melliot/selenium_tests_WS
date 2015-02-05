@@ -64,7 +64,7 @@ public class Get {
     @Test //(dependsOnMethods = "apiGetGroups")
     public void apiGetGroupTrees() throws Exception {
         //String url = Hostname.getHostName() + getGroupsApiLink +"?secret_token="+ Data.token;
-        String url = Hostname.getHostName() + "/api/v2/trees.json?secret_token=" + "bMuIW136cE4PyhjElgXgwrhilgSl6KZMb18vuvos" +"&group_id=75ff0ba05ec801328a4f002590e75102";
+        String url = Hostname.getHostName() + "/api/v2/trees.json?secret_token=" + "bMuIW136cE4PyhjElgXgwrhilgSl6KZMb18vuvos" +"&group_id=760a6ff07e1001328b9b002590e75102";
 //8b5876804d4c01328917002590e75102
         //Send Get to URL and retrieve result
         HashMap result = sendGetTo(url);
@@ -83,7 +83,7 @@ public class Get {
     @Test //(dependsOnMethods = "apiGetGroups")
     public void apiGetGroupTreeFromPreset() throws Exception {
         //String url = Hostname.getHostName() + getGroupsApiLink +"?secret_token="+ Data.token;
-        String url = Hostname.getHostName() + "/api/v2/tree.json?secret_token=" + "bMuIW136cE4PyhjElgXgwrhilgSl6KZMb18vuvos" +"&group_id=75ff0ba05ec801328a4f002590e75102&unique=false&id=605";
+        String url = Hostname.getHostName() + "/api/v2/tree.json?secret_token=" + "bMuIW136cE4PyhjElgXgwrhilgSl6KZMb18vuvos" +"&group_id=760a6ff07e1001328b9b002590e75102&unique=false&id=700";
 //8b5876804d4c01328917002590e75102
         //Send Get to URL and retrieve result
         HashMap result = sendGetTo(url);
@@ -279,7 +279,9 @@ public class Get {
     @Test (dataProvider = "trueOrFalse", dependsOnMethods = "apiGetGroups")
     public void apiGetTree(String uniqOrNot) throws Exception {
         //String url = Hostname.getHostName() + getGroupsApiLink +"?secret_token="+Data.token;
-        String url = Hostname.getHostName() + getTreeApiLink + "?secret_token=" + Data.token+ "&group_id=" + someGroup.get("id") + "&unique=" + uniqOrNot;
+        //String url = Hostname.getHostName() + getTreeApiLink + "?secret_token=" + Data.token+ "&group_id=" + someGroup.get("id") + "&unique=" + uniqOrNot;
+        String url = Hostname.getHostName() + getTreeApiLink + "?secret_token=" + Data.token+ "&group_id=" + "760a6ff07e1001328b9b002590e75102" + "&unique=" + uniqOrNot;
+
 
         //Send Get to URL and retrieve result
         HashMap result = sendGetTo(url);
@@ -291,7 +293,7 @@ public class Get {
         assertEquals("Expected 200, but got "+ statusCodeResponce + "("+responceBodyStr+")", true, statusCodeResponce.equals("200")||statusCodeResponce.equals("417"));
 
         if (statusCodeResponce.equals("417")){
-            assertEquals(responceBodyStr.contains("\"error\":\"tree for group")&&responceBodyStr.contains("is not build yet"),true);
+            assertEquals(responceBodyStr,responceBodyStr.contains("\"error\":\"tree  for group")&&responceBodyStr.contains("is not found"),true);
             return;
         }
 
