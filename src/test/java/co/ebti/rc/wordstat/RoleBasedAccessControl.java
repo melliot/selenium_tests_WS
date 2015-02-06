@@ -502,13 +502,13 @@ public class RoleBasedAccessControl {
         group.sortByCollectionType.isDisplayed(); group.sortByExactWeight.isDisplayed();
         group.sortByFullExactWeight.isDisplayed(); group.sortByWeight.isDisplayed();
 
-        //Stop words page elements
+/*        //Stop words page elements
         group.stopWords.click();
         group.mswStopWordField.isDisplayed(); group.mswAddStopWord.isDisplayed();
         group.mswHideAllLocal.isDisplayed();
         group.automaticStopWords.click();
         group.aswAddToStopWords.isDisplayed(); group.aswRebuildRating.isDisplayed();
-        group.wordsTree.click(); group.wtBuildTreeButton.isDisplayed();
+        group.wordsTree.click(); group.wtBuildTreeButton.isDisplayed();*/
     }
 
     @Test (dataProvider = "userEmails")
