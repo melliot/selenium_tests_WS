@@ -45,7 +45,7 @@ public class Groups extends Page {
     @FindBy(id = "group_name")
     public WebElement newGroupNameField;
 
-    @FindBy(id = "group_category_id_chosen")
+    @FindBy(css = ".chosen-single>span")
     public WebElement newGroupCategory;
 
     @FindBy(id = "group_type")
@@ -81,6 +81,8 @@ public class Groups extends Page {
     @FindBy(id = "delete_template")
     public WebElement resetAnchorFormButton;
 
+    @FindBy(xpath = "//li[contains(text(),' RU')]")
+    public WebElement selectRuCategory;
 
     @Override
     public void open() {

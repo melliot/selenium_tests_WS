@@ -48,6 +48,12 @@ public class Api {
         return result;
     }
 
+    //Ключевые слова группы постранично
+    public static String getGroupKeywordsP(String token, String groupID, int page, int per_page){
+        String result = Hostname.getHostName() + "/api/v2/group_keywords_p.json?group_id=" + groupID + "&page=" + page + "&per_page=" + per_page + "&secret_token=" + token;
+        return result;
+    }
+
     //Дерево тематик
     public static String getTopics(String token){
         String result = Hostname.getHostName() + "/api/v2/topics.json?secret_token=" + token;

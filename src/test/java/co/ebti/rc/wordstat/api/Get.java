@@ -55,10 +55,12 @@ public class Get {
                 .contains("id"), true);
 
         //GroupID needed for other tests
-        someGroup = (JSONObject) responseBody.get(0);
-        System.out.println(Api.getGroups(Data.token));
-
-        System.out.println(responseBody.toString());
+        if(uniqOrNot.equals("false")) {
+            for (int i =0; i < responseBody.length(); i++)
+            System.out.println(responseBody.get(i));
+            someGroup = (JSONObject) responseBody.get(0);
+            System.out.println(responseBody.toString());
+        }
     }
 
     @Test //(dependsOnMethods = "apiGetGroups")
@@ -83,7 +85,7 @@ public class Get {
     @Test //(dependsOnMethods = "apiGetGroups")
     public void apiGetGroupTreeFromPreset() throws Exception {
         //String url = Hostname.getHostName() + getGroupsApiLink +"?secret_token="+ Data.token;
-        String url = Hostname.getHostName() + "/api/v2/tree.json?secret_token=" + "bMuIW136cE4PyhjElgXgwrhilgSl6KZMb18vuvos" +"&group_id=760a6ff07e1001328b9b002590e75102&unique=false&id=700";
+        String url = Hostname.getHostName() + "/api/v2/tree.json?secret_token=" + "bMuIW136cE4PyhjElgXgwrhilgSl6KZMb18vuvos" +"&group_id=760a6ff07e1001328b9b002590e75102&unique=false&id=758";
 //8b5876804d4c01328917002590e75102
         //Send Get to URL and retrieve result
         HashMap result = sendGetTo(url);
@@ -249,6 +251,7 @@ public class Get {
     public void apiGetGroupKeywords() throws Exception {
         //String url = Hostname.getHostName() + getAnchorTemplates +"?secret_token="+Data.token;
         String url = Hostname.getHostName() + getGroupKeywords + "?group_id=" + someGroup.get("id") + "&secret_token=" +Data.token;
+        //String url = Hostname.getHostName() + getGroupKeywords + "?group_id=" + "40059c20457d013288d4002590e75102" + "&secret_token=" +Data.token;
 
         //Send Get to URL and retrieve result
         HashMap result = sendGetTo(url);
@@ -259,6 +262,39 @@ public class Get {
         //Get response body, then get first record from response array
         JSONArray responseBody = new JSONArray(result.get("responseBody").toString());
         String firstElementOfResponseArray = responseBody.get(0).toString();
+
+        for(int a = 0; a < responseBody.length(); a++){
+            System.out.println(responseBody.get(a).toString());
+        }
+
+        assertEquals("First record contain text: 'full_exact_weight', 'exact_weight', 'weight', 'keyword'. Received response is:" + responseBody.toString(), firstElementOfResponseArray
+                .contains("full_exact_weight") && firstElementOfResponseArray
+                .contains("exact_weight") && firstElementOfResponseArray
+                .contains("weight") && firstElementOfResponseArray
+                .contains("keyword"), true);
+    }
+
+    @Test (dependsOnMethods = "apiGetGroups")
+    public void apiGetGroupKeywordsP() throws Exception {
+        //String url = Api.getGroupKeywordsP(Data.token, someGroup.get("id").toString(), 1, 1000);
+        String url = Api.getGroupKeywordsP(Data.token, "40059c20457d013288d4002590e75102", 1, 3);
+
+        //Send Get to URL and retrieve result
+        HashMap result = sendGetTo(url);
+
+        //Check statusCode & body for correct values
+        assertEquals("Expected 200, but got " + result.get("statusCode").toString(), true, result.get("statusCode").toString().equals("200"));
+        System.out.println(sendGetTo(url).toString());
+
+
+        //Get response body, then get first record from response array
+        JSONObject responseBody = new JSONObject(result.get("responseBody").toString());
+        JSONArray keywords = (JSONArray) responseBody.get("keywords");
+        String firstElementOfResponseArray = keywords.get(0).toString();
+
+        for(int a = 0; a < keywords.length(); a++){
+            System.out.println(keywords.get(a).toString());
+        }
 
         assertEquals("First record contain text: 'full_exact_weight', 'exact_weight', 'weight', 'keyword'. Received response is:" + responseBody.toString(), firstElementOfResponseArray
                 .contains("full_exact_weight") && firstElementOfResponseArray

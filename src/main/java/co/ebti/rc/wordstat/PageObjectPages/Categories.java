@@ -47,27 +47,11 @@ public class Categories extends Page {
     public WebElement cEparentDropDownList;
 
     //group_category_id_chosen
-    @FindBy(id = "category_se_settings_attributes_language_chosen")
+    @FindBy(id = "category_se_settings_attributes_language")
     public WebElement cELanguageDropDownMenu;
 
-    //Modern Greek language
-    @FindBy(xpath = "//li[contains(text(),'3')]")
-    public WebElement cEChooseGreekLanguageElement;
-
-    //Modern Greek language
-    @FindBy(xpath = "//li[contains(text(),'Ukrainian')]")
-    public WebElement cEChooseGreekkkkkLanguageElement;
-
-    @FindBy(id = "category_se_settings_attributes_country_chosen")
+    @FindBy(id = "category_se_settings_attributes_country")
     public WebElement cEChooseCountryDropDownMenu;
-
-    //Modern Greek language
-    @FindBy(xpath = "//li[contains(text(),'Colombia')]")
-    public WebElement cEChooseColombiaCountryElement;
-
-    //Modern Greek language
-    @FindBy(xpath = "//li[contains(text(),'Barbados')]")
-    public WebElement cEChooseBarbadosCountryElement;
 
     @FindBy(id = "category_rtb_name")
     public WebElement cErtb;

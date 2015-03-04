@@ -1,8 +1,11 @@
 package co.ebti.rc.wordstat;
 
 public class Hostname {
-
+    //RC
     public static final String HOSTNAME = "wordstat.rc.ebti.co";
+    //Production
+    //public static final String HOSTNAME = "wordstat.lvlp.co";
+
     //private static final int DBPORT = 27017;
     private static final String DBNAME = "elen";
 

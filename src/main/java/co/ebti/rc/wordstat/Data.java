@@ -16,5 +16,4 @@ public class Data {
     public static String surnameSmith = "Smith";
     public static String password = "somepass";
     public static String token = "bMuIW136cE4PyhjElgXgwrhilgSl6KZMb18vuvos";
-
 }

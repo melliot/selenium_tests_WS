@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -32,7 +33,7 @@ public class Category {
     }
 
     @Test(groups = "category crud")
-    public void createNewMainCategory(){
+    public void createNewMainCategory() throws InterruptedException {
         createMainCategoryAndGoIn("QA_Autotest_Category_QA");
     }
 
@@ -45,6 +46,7 @@ public class Category {
         categories.goToTheLinkWhichContainText("QA_Autotest_Category_QA");
         categories.editCategory.click();
 
+
         assertEquals("Value must be, but we got: "+ categories.cEcategoryName.getAttribute("value"), true, categories.cEcategoryName.getAttribute("value").equals("QA_Autotest_Category_QA"));
         categories.cEcategoryName.clear();
         categories.cEcategoryName.sendKeys("QA_Autotest_Category_Changed_QA");
@@ -53,15 +55,17 @@ public class Category {
         categories.cErtb.clear();
         categories.cErtb.sendKeys("WSEditedCyborg");
 
-        assertEquals("Value must be, but we got: " + categories.cELanguageDropDownMenu.getText(), true, categories.cELanguageDropDownMenu.getText().equals("Modern Greek (1453-)"));
-        categories.cELanguageDropDownMenu.click();
-        categories.cEChooseGreekkkkkLanguageElement.click();
+        Select selectLanguage = new Select(categories.cELanguageDropDownMenu);
+        assertEquals("Value must be 'Tibetan', but we got: " + selectLanguage.getFirstSelectedOption().getText(), true, selectLanguage.getFirstSelectedOption().getText().equals("Tibetan"));
+        selectLanguage.selectByVisibleText("Ukrainian");
 
-        assertEquals("Value must be, but we got: " + categories.cEChooseCountryDropDownMenu.getText(), true, categories.cEChooseCountryDropDownMenu.getText().equals("Barbados"));
-        categories.cEChooseCountryDropDownMenu.click();
-        categories.cEChooseColombiaCountryElement.click();
+        Select selectCountry = new Select(categories.cEChooseCountryDropDownMenu);
+        assertEquals("Value must be 'India', but we got: " + selectCountry.getFirstSelectedOption().getText(), true, selectCountry.getFirstSelectedOption().getText().equals("India"));
+        selectCountry.selectByVisibleText("Colombia");
 
-        categories.cEselectEngine.sendKeys("Yandex");
+        Select selectEngine = new Select(categories.cEEngine);
+        assertEquals("Value must be 'Yandex', but we got: " + selectEngine.getFirstSelectedOption().getText(), true, selectEngine.getFirstSelectedOption().getText().equals("Yandex"));
+        selectEngine.selectByVisibleText("Google");
         categories.cEsaveButton.click();
 
         categories.open();
@@ -72,10 +76,9 @@ public class Category {
 
         assertEquals("After changes new value must be: 'QA_Autotest_Category_Changed_QA'. but we got :" + categories.cEcategoryName.getAttribute("value"), true, categories.cEcategoryName.getAttribute("value").equals("QA_Autotest_Category_Changed_QA"));
         assertEquals("After changes new value must be: 'WSEditedCyborg'. but we got :" + categories.cErtb.getAttribute("value"), true, categories.cErtb.getAttribute("value").equals("WSEditedCyborg"));
-        assertEquals("After changes new value must be: 'Ukrainian'. but we got :" + categories.cELanguageDropDownMenu.getText(), true, categories.cELanguageDropDownMenu.getText().equals("Ukrainian"));
-        assertEquals("After changes new value must be: 'Colombia'. but we got :" + categories.cEChooseCountryDropDownMenu.getText(), true, categories.cEChooseCountryDropDownMenu.getText().equals("Colombia"));
-        //need to find method for checking list
-        //assertEquals("After changes new value must be: 'Yandex'. but we got :" + categories.cEselectEngine.getText(), true, categories.cEselectEngine.getText().equals("Yandex"));
+        assertEquals("After changes new value must be: 'Ukrainian'. but we got :" + selectLanguage.getFirstSelectedOption().getText(), true, selectLanguage.getFirstSelectedOption().getText().equals("Ukrainian"));
+        assertEquals("After changes new value must be: 'Colombia'. but we got :" + selectCountry.getFirstSelectedOption().getText(), true, selectCountry.getFirstSelectedOption().getText().equals("Colombia"));
+        assertEquals("After changes new value must be: 'Google'. but we got :" + selectEngine.getFirstSelectedOption().getText(), true, selectEngine.getFirstSelectedOption().getText().equals("Google"));
     }
 
     @Test (groups = "category crud", dependsOnMethods = "editMainCategory")
@@ -112,9 +115,9 @@ public class Category {
         categories.cEcategoryName.sendKeys(testSubCategoryName);
         categories.cErtb.sendKeys("WSCyborg");
         //Check inherited values of main category
-        assertTrue(categories.textOnThePageContains("Modern Greek (1453-)"));
-        assertTrue(categories.textOnThePageContains("Barbados"));
-        assertTrue(categories.textOnThePageContains("Google"));
+        assertTrue(categories.textOnThePageContains("Tibetan"));
+        assertTrue(categories.textOnThePageContains("India"));
+        assertTrue(categories.textOnThePageContains("Yandex"));
         categories.cEsaveButton.click();
 
         //Go to the created subCategory and remove all test categories
@@ -134,7 +137,7 @@ public class Category {
     }
 
 
-    public void createMainCategoryAndGoIn(String groupName){
+    public void createMainCategoryAndGoIn(String groupName) throws InterruptedException {
         categories = PageFactory.initElements(driver, Categories.class);
         categories.open();
         if(categories.textOnThePageContains(groupName)){
@@ -146,12 +149,20 @@ public class Category {
         categories.createNewCategory.isDisplayed();
         categories.createNewCategory.click();
 
+        categories.cEcategoryName.isDisplayed();
+
         categories.cEcategoryName.sendKeys(groupName);
         categories.cErtb.sendKeys("WSCyborg");
-        categories.cELanguageDropDownMenu.click();
-        categories.cEChooseGreekLanguageElement.click();
-        categories.cEChooseCountryDropDownMenu.click();
-        categories.cEChooseBarbadosCountryElement.click();
+
+        Select selectLanguage = new Select(categories.cELanguageDropDownMenu);
+        selectLanguage.selectByVisibleText("Tibetan");
+
+        Select selectCountry = new Select(categories.cEChooseCountryDropDownMenu);
+        selectCountry.selectByVisibleText("India");
+
+        Select selectEngine = new Select(categories.cEEngine);
+        selectEngine.selectByVisibleText("Yandex");
+
         categories.cEsaveButton.click();
 
         categories.waitForElementVisible10Sec(driver.findElement(By.linkText(groupName)));
