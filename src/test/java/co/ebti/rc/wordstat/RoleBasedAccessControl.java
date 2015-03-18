@@ -246,7 +246,11 @@ public class RoleBasedAccessControl {
         groups = PageFactory.initElements(driver, Groups.class);
         groups.open();
         groups.searchGroup.isDisplayed();
-        assertEquals("Groups page contains button collect wrong weights",false, groups.textOnThePageContains("Collect wrong weights for"));
+        if(Data.developerEmail.equals(email)||Data.seoAdminEmail.equals(email)||Data.seoEmail.equals(email)||Data.apiUserEmail.equals(email)||Data.seoManagerEmail.equals(email)){
+        assertEquals("Groups page contains button collect wrong weights",true, groups.textOnThePageContains("Collect wrong weights for"));}
+        if(Data.managerEmail.equals(email)||Data.guestEmail.equals(email)){
+            assertEquals("Groups page contains button collect wrong weights",false, groups.textOnThePageContains("Collect wrong weights for"));
+        }
         groups.searchGroupCollectionType.isDisplayed();
         groups.perPage.isDisplayed();
         groups.find.isDisplayed();
@@ -262,7 +266,7 @@ public class RoleBasedAccessControl {
         groups.open();
 
         //Seek and delete if find test group.
-        if(groups.textOnThePageContains(testGroupName)){
+        if(groups.textOnThePageContains(testGroupName)&&email.equals(Data.managerEmail)==false){
             deleteGroup(groups.linkTo_QA_AutoTestAssembledGroup_QA, testGroupName);
         }
 
@@ -294,15 +298,23 @@ public class RoleBasedAccessControl {
         }
 
         //Save new group
+        groups.saveNewGroupButton.isDisplayed();
+        Thread.sleep(2500);
         groups.saveNewGroupButton.click();
         groups.waitForElementVisible10Sec(groups.goToTheNewGroup);
         groups.goToTheNewGroup.click();
         groups.resetAnchorFormButton.isDisplayed();
+
+        groups.open();
+        //Seek and delete if find test group.
+        if(groups.textOnThePageContains(testGroupName)&&email.equals(Data.managerEmail)==false){
+            deleteGroup(groups.linkTo_QA_AutoTestAssembledGroup_QA, testGroupName);
+        }
     }
 
     //Seomanager can create only assembled group. In future we need additional negative test for simple group creation.
     @Test (dataProvider = "userEmails")
-    public void usersCanCreateEditDeleteGroup(String email) throws AWTException, InterruptedException {
+    public void usersCanCreateEditDeleteGroup(String email) throws InterruptedException {
         //if (email.equals(Data.seoManagerEmail)){throw new SkipException("Skipping the test case");}
 
         final String testGroupName = "QA_AutoTestGroup_QA";
@@ -317,7 +329,9 @@ public class RoleBasedAccessControl {
             try {
                 assertEquals("Manager and Guest role can create new group",false, groups.linkToCreateNewGroup.isDisplayed());
             } catch (NoSuchElementException e){
-                System.out.println("Manager and Guest role can create new group. Visibility of create new group link" + e.toString());}
+                System.out.println("Manager and Guest role can create new group. Visibility of create new group link" + e.toString());
+            return;
+            }
         }
 
         //Seek and delete if find test group.
@@ -526,7 +540,7 @@ public class RoleBasedAccessControl {
             group.list.click();
             assertEquals("Manager can't see 'Anchor File'", true, group.isElementNotPresent(group.anchorFile));
             assertEquals("Manager can't see 'Import/Export'", true, group.isElementNotPresent(group.importExport));
-            assertEquals("Manager can't see 'Stop Words'", true, group.isElementNotPresent(group.stopWords));
+            //assertEquals("Manager can't see 'Stop Words'", true, group.isElementNotPresent(group.stopWords));
             return;
         }
         //For guest
