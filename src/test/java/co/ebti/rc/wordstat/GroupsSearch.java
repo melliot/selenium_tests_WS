@@ -162,7 +162,7 @@ public class GroupsSearch {
 
     @Test
     public void searchState(){
-        int numberOfErrors = 0;
+        numberOfErrors = 0;
         Select selectState = new Select(groupsPageElements.searchGroupState);
 
         //Finished
@@ -191,10 +191,10 @@ public class GroupsSearch {
         }
     }
 
-    public void searchForErrorOnThePageAndWriteErrorToLog(String errorMessage){
+    public void searchForErrorOnThePageAndWriteErrorToLog(String errorMessages){
         if(true==groupsPageElements.textOnThePageContains(errorMessage)){
             numberOfErrors++;
-            System.out.println("'We're sorry' error when search with 'Idling state'");
+            System.out.println(errorMessages);
         }
     }
 
@@ -213,7 +213,7 @@ public class GroupsSearch {
         selectState.selectByVisibleText(state);
         selectCollectionType.selectByVisibleText(type);
         groupsPageElements.findButton.click();
-        searchForErrorOnThePageAndWriteErrorToLog("'We're sorry' error when used filer by type: " + type + " & state: " + state);
+        searchForErrorOnThePageAndWriteErrorToLog("'We're sorry' error when used filtered by type: " + type + " & state: " + state);
     }
 
     @AfterMethod(alwaysRun=true)
