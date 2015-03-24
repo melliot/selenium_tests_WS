@@ -26,6 +26,21 @@ public class Groups extends Page {
     @FindBy(id = "search_group_state")
     public WebElement searchGroupState;
 
+    @FindBy(id = "search_group_collection_engine")
+    public WebElement searchEngine;
+
+    @FindBy(id = "search_group_with_full_responses")
+    public WebElement searchWithFullResponses;
+
+    @FindBy(id = "search_group_with_full_responses_recursive")
+    public WebElement searchWithFullResponsesRecursive;
+
+    @FindBy(id = "search_group_assembled")
+    public WebElement searchOnlyAssembled;
+
+    @FindBy(id = "search_group_invalid")
+    public WebElement searchWithInvalidWeights;
+
     @FindBy(id = "per_page")
     public WebElement perPage;
 
@@ -33,7 +48,7 @@ public class Groups extends Page {
     public WebElement searchGroupExclude;
 
     @FindBy(name = "commit")
-    public WebElement find;
+    public WebElement findButton;
 
     @FindBy(partialLinkText = "Collect wrong weights for")
     public WebElement collectWrongWeightsButton;

@@ -35,116 +35,27 @@ public class GroupsSearch {
     @Test
     public void searchByTypeAndState(){
         numberOfErrors = 0;
-        Select selectCollectionType = new Select(groupsPageElements.searchGroupCollectionType);
-        Select selectState = new Select(groupsPageElements.searchGroupState);
-
-        //===============STATE 'FINISHED'==================================================
-        //state 'Finished' & type 'Direct'
-        selectState.selectByVisibleText("Finished");
-        selectCollectionType.selectByVisibleText("Direct");
-        groupsPageElements.findButton.click();
-        searchForErrorOnThePageAndWriteErrorToLog("'We're sorry' error when used filer by type: 'Direct' & state 'Finished'");
 
         //state 'Finished' & type 'Direct'
-        groupsPageElements.open();
-        selectState.selectByVisibleText("Finished");
-        selectCollectionType.selectByVisibleText("Recursive");
-        groupsPageElements.findButton.click();
-        searchForErrorOnThePageAndWriteErrorToLog("'We're sorry' error when used filer by type: 'Recursive' & state 'Finished'");
-
-        //state 'Finished' & type 'Direct'
-        groupsPageElements.open();
-        selectState.selectByVisibleText("Finished");
-        selectCollectionType.selectByVisibleText("Repeated");
-        groupsPageElements.findButton.click();
-        searchForErrorOnThePageAndWriteErrorToLog("'We're sorry' error when used filer by type: 'Repeated' & state 'Finished'");
-
-        //state 'Finished' & type 'Direct'
-        groupsPageElements.open();
-        selectState.selectByVisibleText("Finished");
-        selectCollectionType.selectByVisibleText("Supplemented");
-        groupsPageElements.findButton.click();
-        searchForErrorOnThePageAndWriteErrorToLog("'We're sorry' error when used filer by type: 'Supplemented' & state 'Finished'");
-
-        //state 'Finished' & type 'Direct'
-        groupsPageElements.open();
-        selectState.selectByVisibleText("Finished");
-        selectCollectionType.selectByVisibleText("Suggestions");
-        groupsPageElements.findButton.click();
-        searchForErrorOnThePageAndWriteErrorToLog("'We're sorry' error when used filer by type: 'Suggestions' & state 'Finished'");
-
-        //===============STATE 'WORKING'==================================================
-        //state 'Working' & type 'Direct'
-        groupsPageElements.open();
-        selectState.selectByVisibleText("Working");
-        selectCollectionType.selectByVisibleText("Direct");
-        groupsPageElements.findButton.click();
-        searchForErrorOnThePageAndWriteErrorToLog("'We're sorry' error when used filer by type: 'Direct' & state 'Working'");
+        checkTypeAndState("Finished", "Direct");
+        checkTypeAndState("Finished", "Recursive");
+        checkTypeAndState("Finished", "Repeated");
+        checkTypeAndState("Finished", "Supplemented");
+        checkTypeAndState("Finished", "Suggestions");
 
         //state 'Working' & type 'Direct'
-        groupsPageElements.open();
-        selectState.selectByVisibleText("Working");
-        selectCollectionType.selectByVisibleText("Recursive");
-        groupsPageElements.findButton.click();
-        searchForErrorOnThePageAndWriteErrorToLog("'We're sorry' error when used filer by type: 'Recursive' & state 'Working'");
-
-        //state 'Working' & type 'Direct'
-        groupsPageElements.open();
-        selectState.selectByVisibleText("Working");
-        selectCollectionType.selectByVisibleText("Repeated");
-        groupsPageElements.findButton.click();
-        searchForErrorOnThePageAndWriteErrorToLog("'We're sorry' error when used filer by type: 'Repeated' & state 'Working'");
-
-        //state 'Working' & type 'Direct'
-        groupsPageElements.open();
-        selectState.selectByVisibleText("Working");
-        selectCollectionType.selectByVisibleText("Supplemented");
-        groupsPageElements.findButton.click();
-        searchForErrorOnThePageAndWriteErrorToLog("'We're sorry' error when used filer by type: 'Supplemented' & state 'Working'");
-
-        //state 'Working' & type 'Direct'
-        groupsPageElements.open();
-        selectState.selectByVisibleText("Working");
-        selectCollectionType.selectByVisibleText("Suggestions");
-        groupsPageElements.findButton.click();
-        searchForErrorOnThePageAndWriteErrorToLog("'We're sorry' error when used filer by type: 'Suggestions' & state 'Working'");
-
-        //===============STATE 'IDLING'==================================================
-        //state 'Idling' & type 'Direct'
-        groupsPageElements.open();
-        selectState.selectByVisibleText("Idling");
-        selectCollectionType.selectByVisibleText("Direct");
-        groupsPageElements.findButton.click();
-        searchForErrorOnThePageAndWriteErrorToLog("'We're sorry' error when used filer by type: 'Direct' & state 'Idling'");
+        checkTypeAndState("Working", "Direct");
+        checkTypeAndState("Working", "Recursive");
+        checkTypeAndState("Working", "Repeated");
+        checkTypeAndState("Working", "Supplemented");
+        checkTypeAndState("Working", "Suggestions");
 
         //state 'Idling' & type 'Direct'
-        groupsPageElements.open();
-        selectState.selectByVisibleText("Idling");
-        selectCollectionType.selectByVisibleText("Recursive");
-        groupsPageElements.findButton.click();
-        searchForErrorOnThePageAndWriteErrorToLog("'We're sorry' error when used filer by type: 'Recursive' & state 'Idling'");
-
-        //state 'Idling' & type 'Direct'
-        groupsPageElements.open();
-        selectState.selectByVisibleText("Idling");
-        selectCollectionType.selectByVisibleText("Repeated");
-        groupsPageElements.findButton.click();
-        searchForErrorOnThePageAndWriteErrorToLog("'We're sorry' error when used filer by type: 'Repeated' & state 'Idling'");
-
-        //state 'Idling' & type 'Direct'
-        groupsPageElements.open();
-        selectState.selectByVisibleText("Idling");
-        selectCollectionType.selectByVisibleText("Supplemented");
-        groupsPageElements.findButton.click();
-        searchForErrorOnThePageAndWriteErrorToLog("'We're sorry' error when used filer by type: 'Supplemented' & state 'Idling'");
-
-        //state 'Idling' & type 'Direct'
-        groupsPageElements.open();
-        selectState.selectByVisibleText("Idling");
-        selectCollectionType.selectByVisibleText("Suggestions");
-        groupsPageElements.findButton.click();
-        searchForErrorOnThePageAndWriteErrorToLog("'We're sorry' error when used filer by type: 'Suggestions' & state 'Idling'");
-
+        checkTypeAndState("Idling", "Direct");
+        checkTypeAndState("Idling", "Recursive");
+        checkTypeAndState("Idling", "Repeated");
+        checkTypeAndState("Idling", "Supplemented");
+        checkTypeAndState("Idling", "Suggestions");
 
         throwExceptionIfNumberOfErrorsMoreThanZero(numberOfErrors);
     }
@@ -152,37 +63,11 @@ public class GroupsSearch {
     @Test
     public void searchByType(){
         numberOfErrors = 0;
-        Select selectCollectionType = new Select(groupsPageElements.searchGroupCollectionType);
-
-        //Filter by Direct
-        selectCollectionType.selectByVisibleText("Direct");
-        groupsPageElements.findButton.click();
-        searchForErrorOnThePageAndWriteErrorToLog("'We're sorry' error when used filter by type: 'Direct'");
-
-        //Filter by Recursive
-        groupsPageElements.open();
-        selectCollectionType.selectByVisibleText("Recursive");
-        groupsPageElements.findButton.click();
-        searchForErrorOnThePageAndWriteErrorToLog("'We're sorry' error when used filter by type: 'Recursive'");
-
-        //Filter by Supplemented
-        groupsPageElements.open();
-        selectCollectionType.selectByVisibleText("Supplemented");
-        groupsPageElements.findButton.click();
-        searchForErrorOnThePageAndWriteErrorToLog("'We're sorry' error when used filter by type: 'Supplemented'");
-
-        //Filter by Repeated
-        groupsPageElements.open();
-        selectCollectionType.selectByVisibleText("Repeated");
-        groupsPageElements.findButton.click();
-        searchForErrorOnThePageAndWriteErrorToLog("'We're sorry' error when used filter by type: 'Repeated'");
-
-        //Filter by Suggestions
-        groupsPageElements.open();
-        selectCollectionType.selectByVisibleText("Suggestions");
-        groupsPageElements.findButton.click();
-        searchForErrorOnThePageAndWriteErrorToLog("'We're sorry' error when used filter by type: 'Suggestions'");
-
+        filterByType("Direct");
+        filterByType("Recursive");
+        filterByType("Supplemented");
+        filterByType("Suggestions");
+        filterByType("Repeated");
         throwExceptionIfNumberOfErrorsMoreThanZero(numberOfErrors);
     }
 
@@ -256,7 +141,7 @@ public class GroupsSearch {
         numberOfErrors = 0;
         Select selectEngine = new Select(groupsPageElements.searchEngine);
 
-        //Check clear find
+        //Check search without parameter
         groupsPageElements.findButton.click();
         searchForErrorOnThePageAndWriteErrorToLog("'We're sorry' error when search without parameter");
 
@@ -311,6 +196,24 @@ public class GroupsSearch {
             numberOfErrors++;
             System.out.println("'We're sorry' error when search with 'Idling state'");
         }
+    }
+
+    public void filterByType(String collectionType){
+        Select selectCollectionType = new Select(groupsPageElements.searchGroupCollectionType);
+
+        groupsPageElements.open();
+        selectCollectionType.selectByVisibleText(collectionType);
+        groupsPageElements.findButton.click();
+        searchForErrorOnThePageAndWriteErrorToLog("'We're sorry' error when used filter by type: " + collectionType);
+    }
+
+    public void checkTypeAndState(String state, String type){
+        Select selectCollectionType = new Select(groupsPageElements.searchGroupCollectionType);
+        Select selectState = new Select(groupsPageElements.searchGroupState);
+        selectState.selectByVisibleText(state);
+        selectCollectionType.selectByVisibleText(type);
+        groupsPageElements.findButton.click();
+        searchForErrorOnThePageAndWriteErrorToLog("'We're sorry' error when used filer by type: " + type + " & state: " + state);
     }
 
     @AfterMethod(alwaysRun=true)
