@@ -253,7 +253,7 @@ public class RoleBasedAccessControl {
         }
         groups.searchGroupCollectionType.isDisplayed();
         groups.perPage.isDisplayed();
-        groups.find.isDisplayed();
+        groups.findButton.isDisplayed();
     }
 
     @Test (dataProvider = "userEmails")
