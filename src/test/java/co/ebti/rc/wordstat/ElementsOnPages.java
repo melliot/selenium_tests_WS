@@ -108,9 +108,13 @@ public class ElementsOnPages {
         assertEquals("Page contains the text 'Service '",true, page.textOnThePageContains("Service"));
         assertEquals("Page contains the text 'Queue'", true, page.textOnThePageContains("Queue"));
         assertEquals("Page contains the text 'Value'",true, page.textOnThePageContains("Value"));
-        assertEquals("Page contains the text 'Yandex WS'", true, page.textOnThePageContains("Yandex WS"));
+        assertEquals("Page contains the text 'Yandex Keywords'", true, page.textOnThePageContains("Yandex Keywords"));
+        assertEquals("Page contains the text 'Yandex Weights'", true, page.textOnThePageContains("Yandex Weights"));
+        assertEquals("Page contains the text 'Yandex Suggestions'", true, page.textOnThePageContains("Yandex Suggestions"));
+        assertEquals("Page contains the text 'Google Keywords'", true, page.textOnThePageContains("Google Keywords"));
         assertEquals("Page contains the text 'Details'",true, page.textOnThePageContains("Details"));
         assertEquals("Page contains the text 'OK'",true, page.textOnThePageContains("OK"));
+        assertEquals("Page contains the text 'Daily Performance (UTC)'",true, page.textOnThePageContains("Daily Performance (UTC)"));
     }
 
     @AfterMethod(alwaysRun=true)

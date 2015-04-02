@@ -250,8 +250,8 @@ public class Get {
     @Test (dependsOnMethods = "apiGetGroups")
     public void apiGetGroupKeywords() throws Exception {
         //String url = Hostname.getHostName() + getAnchorTemplates +"?secret_token="+Data.token;
-        String url = Hostname.getHostName() + getGroupKeywords + "?group_id=" + someGroup.get("id") + "&secret_token=" +Data.token;
-        //String url = Hostname.getHostName() + getGroupKeywords + "?group_id=" + "40059c20457d013288d4002590e75102" + "&secret_token=" +Data.token;
+        //String url = Hostname.getHostName() + getGroupKeywords + "?group_id=" + someGroup.get("id") + "&secret_token=" +Data.token;
+        String url = Hostname.getHostName() + getGroupKeywords + "?group_id=" + "40059c20457d013288d4002590e75102" + "&secret_token=" +Data.token;
 
         //Send Get to URL and retrieve result
         HashMap result = sendGetTo(url);

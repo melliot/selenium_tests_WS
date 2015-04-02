@@ -167,6 +167,9 @@ public class Group extends Page {
     @FindBy(xpath = "//a[contains(text(),'Build Tree')]")
     public WebElement wtBuildTreeButton;
 
+    @FindBy(xpath = "//a[contains(text(),'Help (значения спецсимволов)')]")
+    public WebElement treeHelpLink;
+
 /*    @FindBy(xpath = "//div[@id='js-add-stop-words-holder']/div")
     public WebElement wtAddToStopWords;*/
 

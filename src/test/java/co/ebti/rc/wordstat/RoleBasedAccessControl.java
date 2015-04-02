@@ -30,6 +30,7 @@ public class RoleBasedAccessControl {
     private ArrayList<String> testUsersRoles;
     private String groupForInsideCheck;
     private String assembledGroupForInsideCheck;
+    private String thereIsNoTreeMessage = "Trees generation is disabled because group has uncollected weightsSpecify configuration, please";
 
 
 
@@ -390,7 +391,7 @@ public class RoleBasedAccessControl {
         //Go to test group
         groups.linkTo_QA_AutoTestInsideGroup_QA.isDisplayed();
         groups.linkTo_QA_AutoTestInsideGroup_QA.click();
-        groups.resetAnchorFormButton.isDisplayed();
+        groups.textOnThePageContains(thereIsNoTreeMessage);
 
         //Check tabs
         group = PageFactory.initElements(driver, Group.class);
@@ -439,6 +440,7 @@ public class RoleBasedAccessControl {
         group.stopWords.isDisplayed();
 
         //check anchor file elements
+        group.anchorFile.click();
         group.resetAnchorFormButton.isDisplayed(); group.templateNameField.isDisplayed();
         group.loadTemplateMenu.isDisplayed(); group.saveTemplateButton.isDisplayed();
         group.addPreposition.isDisplayed(); group.addDomain.isDisplayed();
@@ -511,10 +513,11 @@ public class RoleBasedAccessControl {
         //Go to test group
         groups.linkTo_QA_AutoTestInsideAssembledGroup_QA.isDisplayed();
         groups.linkTo_QA_AutoTestInsideAssembledGroup_QA.click();
-        groups.resetAnchorFormButton.isDisplayed();
+        groups.textOnThePageContains(thereIsNoTreeMessage);
 
         //Check tabs
         group = PageFactory.initElements(driver, Group.class);
+        group.open();
         //For manager
         if (email.equals(Data.managerEmail)){
             group.list.isDisplayed();
@@ -552,6 +555,8 @@ public class RoleBasedAccessControl {
             assertEquals("Guest can't see 'Anchor File' tab", true, group.isElementNotPresent(group.anchorFile));
             return;
         }
+
+        group.anchorFile.click();
 
         group.list.isDisplayed();
         group.importExport.isDisplayed();
@@ -686,7 +691,7 @@ public class RoleBasedAccessControl {
         groups.open();
         groups.searchGroup.isDisplayed();
         linkToTheGroup.click();
-        groups.resetAnchorFormButton.isDisplayed();
+        groups.textOnThePageContains(thereIsNoTreeMessage);
         groups.removeGroup.isDisplayed();
         groups.removeGroup.click();
         driver.switchTo().alert().accept();

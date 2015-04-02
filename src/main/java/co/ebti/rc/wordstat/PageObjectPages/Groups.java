@@ -96,6 +96,9 @@ public class Groups extends Page {
     @FindBy(id = "delete_template")
     public WebElement resetAnchorFormButton;
 
+    @FindBy(xpath = "//a[contains(text(),'Unique Tree')]")
+    public WebElement uniqueTreeLink;
+
     @FindBy(xpath = "//li[contains(text(),' RU')]")
     public WebElement selectRuCategory;
 
