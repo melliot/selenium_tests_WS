@@ -35,6 +35,7 @@ public class GroupsSearch {
     @Test
     public void searchByTypeAndState(){
         numberOfErrors = 0;
+        long startTime = System.currentTimeMillis();
 
         //state 'Finished' & type 'Direct'
         checkTypeAndState("Finished", "Direct");
@@ -57,11 +58,14 @@ public class GroupsSearch {
         checkTypeAndState("Idling", "Supplemented");
         checkTypeAndState("Idling", "Suggestions");
 
+        finishAndPrint(startTime, "searchByTypeAndState - total of 15");
         throwExceptionIfNumberOfErrorsMoreThanZero(numberOfErrors);
     }
 
     @Test
     public void searchByType(){
+        long startTime = System.currentTimeMillis();
+
         numberOfErrors = 0;
         filterByType("Direct");
         filterByType("Recursive");
@@ -69,22 +73,28 @@ public class GroupsSearch {
         filterByType("Suggestions");
         filterByType("Repeated");
         throwExceptionIfNumberOfErrorsMoreThanZero(numberOfErrors);
+
+        finishAndPrint(startTime, "searchByType - total of 5");
     }
 
     @Test
     public void simpleAndExcludeSearch(){
         numberOfErrors = 0;
+        long startTime = System.currentTimeMillis();
 
         //Search field
         groupsPageElements.searchGroup.sendKeys("Doom, QA");
         groupsPageElements.findButton.click();
         searchForErrorOnThePageAndWriteErrorToLog("'We're sorry' error when used only 'search' field");
+        finishAndPrint(startTime, "Search field");
+
 
         //Exclude field
         groupsPageElements.open();
         groupsPageElements.searchGroupExclude.sendKeys("Doom, QA");
         groupsPageElements.findButton.click();
         searchForErrorOnThePageAndWriteErrorToLog("'We're sorry' error when used only 'exclude' field");
+        finishAndPrint(startTime, "Exclude field");
 
         //Search & Exclude field
         groupsPageElements.open();
@@ -93,12 +103,14 @@ public class GroupsSearch {
         groupsPageElements.findButton.click();
         searchForErrorOnThePageAndWriteErrorToLog("'We're sorry' error when used only 'search' & 'exclude' field");
 
+        finishAndPrint(startTime, "Search & Exclude field");
         throwExceptionIfNumberOfErrorsMoreThanZero(numberOfErrors);
     }
 
     @Test
     public void searchUsingParametersCheckbox(){
         numberOfErrors = 0;
+        long startTime = System.currentTimeMillis();
 
         //searchWithInvalidWeights
         groupsPageElements.searchWithInvalidWeights.click();
@@ -132,13 +144,14 @@ public class GroupsSearch {
         groupsPageElements.findButton.click();
         searchForErrorOnThePageAndWriteErrorToLog("'We're sorry' error when search with checkbox 'searchWithFullResponses'");
 
-
+        finishAndPrint(startTime, "searchUsingParametersCheckbox - total of 5");
         throwExceptionIfNumberOfErrorsMoreThanZero(numberOfErrors);
     }
 
     @Test
     public void searchEngine(){
         numberOfErrors = 0;
+        long startTime = System.currentTimeMillis();
         Select selectEngine = new Select(groupsPageElements.searchEngine);
 
         //Check search without parameter
@@ -157,12 +170,14 @@ public class GroupsSearch {
         groupsPageElements.findButton.click();
         searchForErrorOnThePageAndWriteErrorToLog("'We're sorry' error when search with 'Yandex' engine");
 
+        finishAndPrint(startTime, "searchEngine - total of 3");
         throwExceptionIfNumberOfErrorsMoreThanZero(numberOfErrors);
     }
 
     @Test
     public void searchState(){
         numberOfErrors = 0;
+        long startTime = System.currentTimeMillis();
         Select selectState = new Select(groupsPageElements.searchGroupState);
 
         //Finished
@@ -182,7 +197,14 @@ public class GroupsSearch {
         groupsPageElements.findButton.click();
         searchForErrorOnThePageAndWriteErrorToLog("'We're sorry' error when search with 'Idling state'");
 
+        finishAndPrint(startTime, "searchState - total of 3");
         throwExceptionIfNumberOfErrorsMoreThanZero(numberOfErrors);
+    }
+
+    public void finishAndPrint(long start, String forWichTect){
+        long finish = System.currentTimeMillis();
+        long timeConsumedMillis = finish - start;
+        System.out.println(forWichTect + " test load time = " + timeConsumedMillis/1000 + " sec");
     }
 
     public void throwExceptionIfNumberOfErrorsMoreThanZero(int ifNumberOfErrorsMoreThanZero){
