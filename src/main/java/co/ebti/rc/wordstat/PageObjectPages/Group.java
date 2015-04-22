@@ -151,10 +151,6 @@ public class Group extends Page {
     @FindBy(xpath = "//a[contains(text(),'hide all')]")
     public WebElement mswHideAllLocal;
 
-
-    @FindBy(xpath = "//a[contains(text(),'Automatic Stop Words')]")
-    public WebElement automaticStopWords;
-
     @FindBy(xpath = "//a[contains(text(),'Rebuild Rating')]")
     public WebElement aswRebuildRating;
 
@@ -169,6 +165,17 @@ public class Group extends Page {
 
     @FindBy(xpath = "//a[contains(text(),'Help (значения спецсимволов)')]")
     public WebElement treeHelpLink;
+
+    //ASW
+    @FindBy(xpath = "//a[contains(text(),'Automatic Stop Words')]")
+    public WebElement automaticStopWords;
+
+    @FindBy (id = "regexp_kw")
+    public WebElement aswSearchField;
+
+    @FindBy (id = "per_page")
+    public WebElement perPageOnASW;
+
 
 /*    @FindBy(xpath = "//div[@id='js-add-stop-words-holder']/div")
     public WebElement wtAddToStopWords;*/

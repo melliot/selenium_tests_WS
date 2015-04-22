@@ -1,5 +1,6 @@
 package co.ebti.rc.wordstat;
 
+import com.thoughtworks.selenium.SeleniumException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -98,6 +99,13 @@ public abstract class Page {
         }
         return false;
     }
+
+    public static void throwExceptionIfNumberOfErrorsMoreThanZero(int ifNumberOfErrorsMoreThanZero){
+        if(ifNumberOfErrorsMoreThanZero>0){
+            throw new SeleniumException("We have " + ifNumberOfErrorsMoreThanZero + " errors. See test log.");
+        }
+    }
+
     public boolean isElementNotEnabled(WebElement element) {
         Long startTime = new Date().getTime();
         while (Long.valueOf(ConfigProperties.getProperty("element.wait")) * 1000 > ((new Date().getTime()) - startTime)) {

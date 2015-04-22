@@ -6,7 +6,6 @@ package co.ebti.rc.wordstat;
 
 import co.ebti.rc.wordstat.PageObjectPages.Groups;
 import co.ebti.rc.wordstat.PageObjectPages.Login;
-import com.thoughtworks.selenium.SeleniumException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.PageFactory;
@@ -59,7 +58,7 @@ public class GroupsSearch {
         checkTypeAndState("Idling", "Suggestions");
 
         finishAndPrint(startTime, "searchByTypeAndState - total of 15");
-        throwExceptionIfNumberOfErrorsMoreThanZero(numberOfErrors);
+        Page.throwExceptionIfNumberOfErrorsMoreThanZero(numberOfErrors);
     }
 
     @Test
@@ -72,7 +71,7 @@ public class GroupsSearch {
         filterByType("Supplemented");
         filterByType("Suggestions");
         filterByType("Repeated");
-        throwExceptionIfNumberOfErrorsMoreThanZero(numberOfErrors);
+        Page.throwExceptionIfNumberOfErrorsMoreThanZero(numberOfErrors);
 
         finishAndPrint(startTime, "searchByType - total of 5");
     }
@@ -88,9 +87,9 @@ public class GroupsSearch {
         searchForErrorOnThePageAndWriteErrorToLog("'We're sorry' error when used only 'search' field");
         finishAndPrint(startTime, "Search field");
 
-
         //Exclude field
         groupsPageElements.open();
+        startTime = System.currentTimeMillis();
         groupsPageElements.searchGroupExclude.sendKeys("Doom, QA");
         groupsPageElements.findButton.click();
         searchForErrorOnThePageAndWriteErrorToLog("'We're sorry' error when used only 'exclude' field");
@@ -98,13 +97,14 @@ public class GroupsSearch {
 
         //Search & Exclude field
         groupsPageElements.open();
+        startTime = System.currentTimeMillis();
         groupsPageElements.searchGroupExclude.sendKeys("Doom, QA");
         groupsPageElements.searchGroup.sendKeys("games");
         groupsPageElements.findButton.click();
         searchForErrorOnThePageAndWriteErrorToLog("'We're sorry' error when used only 'search' & 'exclude' field");
 
         finishAndPrint(startTime, "Search & Exclude field");
-        throwExceptionIfNumberOfErrorsMoreThanZero(numberOfErrors);
+        Page.throwExceptionIfNumberOfErrorsMoreThanZero(numberOfErrors);
     }
 
     @Test
@@ -145,7 +145,7 @@ public class GroupsSearch {
         searchForErrorOnThePageAndWriteErrorToLog("'We're sorry' error when search with checkbox 'searchWithFullResponses'");
 
         finishAndPrint(startTime, "searchUsingParametersCheckbox - total of 5");
-        throwExceptionIfNumberOfErrorsMoreThanZero(numberOfErrors);
+        Page.throwExceptionIfNumberOfErrorsMoreThanZero(numberOfErrors);
     }
 
     @Test
@@ -171,7 +171,7 @@ public class GroupsSearch {
         searchForErrorOnThePageAndWriteErrorToLog("'We're sorry' error when search with 'Yandex' engine");
 
         finishAndPrint(startTime, "searchEngine - total of 3");
-        throwExceptionIfNumberOfErrorsMoreThanZero(numberOfErrors);
+        Page.throwExceptionIfNumberOfErrorsMoreThanZero(numberOfErrors);
     }
 
     @Test
@@ -198,7 +198,7 @@ public class GroupsSearch {
         searchForErrorOnThePageAndWriteErrorToLog("'We're sorry' error when search with 'Idling state'");
 
         finishAndPrint(startTime, "searchState - total of 3");
-        throwExceptionIfNumberOfErrorsMoreThanZero(numberOfErrors);
+        Page.throwExceptionIfNumberOfErrorsMoreThanZero(numberOfErrors);
     }
 
     public void finishAndPrint(long start, String forWichTect){
@@ -207,11 +207,7 @@ public class GroupsSearch {
         System.out.println(forWichTect + " test load time = " + timeConsumedMillis/1000 + " sec");
     }
 
-    public void throwExceptionIfNumberOfErrorsMoreThanZero(int ifNumberOfErrorsMoreThanZero){
-        if(ifNumberOfErrorsMoreThanZero>0){
-            throw new SeleniumException("We have " + ifNumberOfErrorsMoreThanZero + " errors. See test log.");
-        }
-    }
+
 
     public void searchForErrorOnThePageAndWriteErrorToLog(String errorMessages){
         if(true==groupsPageElements.textOnThePageContains(errorMessage)){
