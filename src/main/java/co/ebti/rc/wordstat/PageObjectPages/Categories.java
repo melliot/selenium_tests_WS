@@ -50,8 +50,14 @@ public class Categories extends Page {
     @FindBy(id = "category_se_settings_attributes_language")
     public WebElement cELanguageDropDownMenu;
 
+    @FindBy(css = "#category_se_settings_attributes_language_chosen > a.chosen-single > span")
+    public WebElement cELanguageDropDownMenuCSSLink;
+
     @FindBy(id = "category_se_settings_attributes_country")
     public WebElement cEChooseCountryDropDownMenu;
+
+    @FindBy(css = "#category_se_settings_attributes_country_chosen > a.chosen-single > span")
+    public WebElement cECountryDropDownMenuCSSLink;
 
     @FindBy(id = "category_rtb_name")
     public WebElement cErtb;

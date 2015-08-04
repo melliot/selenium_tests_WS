@@ -61,12 +61,20 @@ public class Get {
             someGroup = (JSONObject) responseBody.get(0);
             System.out.println(responseBody.toString());
         }
+
+        if(uniqOrNot.equals("true")) {
+            for (int i =0; i < responseBody.length(); i++)
+                System.out.println(responseBody.get(i));
+            System.out.println(responseBody.toString());
+        }
     }
 
     @Test //(dependsOnMethods = "apiGetGroups")
     public void apiGetGroupTrees() throws Exception {
         //String url = Hostname.getHostName() + getGroupsApiLink +"?secret_token="+ Data.token;
-        String url = Hostname.getHostName() + "/api/v2/trees.json?secret_token=" + "bMuIW136cE4PyhjElgXgwrhilgSl6KZMb18vuvos" +"&group_id=760a6ff07e1001328b9b002590e75102";
+        String url = Hostname.getHostName() + "/api/v2/trees.json?secret_token=" + "bMuIW136cE4PyhjElgXgwrhilgSl6KZMb18vuvos" +"&group_id=8bf72080ec0201324ddd002590e75102"; //Y 836 837
+        //String url = Hostname.getHostName() + "/api/v2/trees.json?secret_token=" + "bMuIW136cE4PyhjElgXgwrhilgSl6KZMb18vuvos" +"&group_id=be9db1b0ec0201324ddf002590e75102"; //G 838 839
+
 //8b5876804d4c01328917002590e75102
         //Send Get to URL and retrieve result
         HashMap result = sendGetTo(url);
@@ -85,7 +93,7 @@ public class Get {
     @Test //(dependsOnMethods = "apiGetGroups")
     public void apiGetGroupTreeFromPreset() throws Exception {
         //String url = Hostname.getHostName() + getGroupsApiLink +"?secret_token="+ Data.token;
-        String url = Hostname.getHostName() + "/api/v2/tree.json?secret_token=" + "bMuIW136cE4PyhjElgXgwrhilgSl6KZMb18vuvos" +"&group_id=760a6ff07e1001328b9b002590e75102&unique=false&id=758";
+        String url = Hostname.getHostName() + "/api/v2/tree.json?secret_token=" + "bMuIW136cE4PyhjElgXgwrhilgSl6KZMb18vuvos" +"&group_id=be9db1b0ec0201324ddf002590e75102&unique=false&id=838";
 //8b5876804d4c01328917002590e75102
         //Send Get to URL and retrieve result
         HashMap result = sendGetTo(url);

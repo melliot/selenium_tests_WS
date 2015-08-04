@@ -474,8 +474,8 @@ public class RoleBasedAccessControl {
 
         //Check List elements
         group.list.click();
-        group.blacklistSuggestsField.isDisplayed();
-        group.updateBlacklistSuggestsButton.isDisplayed(); group.searchResultWeightFilterField.isDisplayed();
+        //group.blacklistSuggestsField.isDisplayed(); group.updateBlacklistSuggestsButton.isDisplayed();
+        group.searchResultWeightFilterField.isDisplayed();
         group.searchResultField.isDisplayed(); group.searchResultExcludeField.isDisplayed();
         group.sortByExactWeight.isDisplayed(); group.resultsPerPageMenu.isDisplayed();
         group.toggleAllSuggests.isDisplayed();
@@ -484,8 +484,9 @@ public class RoleBasedAccessControl {
 
         //Check Import/Export
         group.importExport.click();
-        group.uploadUpdate.isDisplayed(); group.uploadReplace.isDisplayed();
-        group.uploadButtonIE.isDisplayed(); group.downloadButtonIE.isDisplayed();
+        //group.uploadUpdate.isDisplayed(); group.uploadReplace.isDisplayed();
+        //group.uploadButtonIE.isDisplayed();
+        group.downloadButtonIE.isDisplayed();
         group.searchResultWeightFilterField.isDisplayed();
         group.searchResultField.isDisplayed(); group.searchResultExcludeField.isDisplayed();
         group.sortByExactWeight.isDisplayed(); group.resultsPerPageMenu.isDisplayed();

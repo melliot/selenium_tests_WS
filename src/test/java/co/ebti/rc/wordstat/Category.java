@@ -3,8 +3,10 @@ package co.ebti.rc.wordstat;
 import co.ebti.rc.wordstat.PageObjectPages.Categories;
 import co.ebti.rc.wordstat.PageObjectPages.Login;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.AfterMethod;
@@ -46,7 +48,6 @@ public class Category {
         categories.goToTheLinkWhichContainText("QA_Autotest_Category_QA");
         categories.editCategory.click();
 
-
         assertEquals("Value must be, but we got: "+ categories.cEcategoryName.getAttribute("value"), true, categories.cEcategoryName.getAttribute("value").equals("QA_Autotest_Category_QA"));
         categories.cEcategoryName.clear();
         categories.cEcategoryName.sendKeys("QA_Autotest_Category_Changed_QA");
@@ -55,17 +56,22 @@ public class Category {
         categories.cErtb.clear();
         categories.cErtb.sendKeys("WSEditedCyborg");
 
-        Select selectLanguage = new Select(categories.cELanguageDropDownMenu);
-        assertEquals("Value must be 'Tibetan', but we got: " + selectLanguage.getFirstSelectedOption().getText(), true, selectLanguage.getFirstSelectedOption().getText().equals("Tibetan"));
-        selectLanguage.selectByVisibleText("Ukrainian");
+        assertEquals("Value must be 'Tibetan', but we got: " + categories.cELanguageDropDownMenuCSSLink.getText(), true, categories.cELanguageDropDownMenuCSSLink.getText().equals("Tibetan"));
+        categories.cELanguageDropDownMenuCSSLink.click();
+        Actions lang = new Actions(driver);
+        lang.sendKeys("Ukrainian", Keys.ENTER).perform();
 
-        Select selectCountry = new Select(categories.cEChooseCountryDropDownMenu);
-        assertEquals("Value must be 'India', but we got: " + selectCountry.getFirstSelectedOption().getText(), true, selectCountry.getFirstSelectedOption().getText().equals("India"));
-        selectCountry.selectByVisibleText("Colombia");
+        assertEquals("Value must be 'India', but we got: " + categories.cECountryDropDownMenuCSSLink.getText(), true, categories.cECountryDropDownMenuCSSLink.getText().equals("India"));
+        categories.cECountryDropDownMenuCSSLink.click();
+        Actions country = new Actions(driver);
+        country.sendKeys("Colombia", Keys.ENTER).perform();
 
+
+        //Need to fix engine check
         Select selectEngine = new Select(categories.cEEngine);
-        assertEquals("Value must be 'Yandex', but we got: " + selectEngine.getFirstSelectedOption().getText(), true, selectEngine.getFirstSelectedOption().getText().equals("Yandex"));
-        selectEngine.selectByVisibleText("Google");
+/*        Thread.sleep(3000);
+        assertEquals("Value must be 'Yandex', but we got: " + selectEngine.getFirstSelectedOption(), true, selectEngine.getFirstSelectedOption().equals("Yandex "));
+        selectEngine.selectByVisibleText("Google");        */
         categories.cEsaveButton.click();
 
         categories.open();
@@ -76,8 +82,8 @@ public class Category {
 
         assertEquals("After changes new value must be: 'QA_Autotest_Category_Changed_QA'. but we got :" + categories.cEcategoryName.getAttribute("value"), true, categories.cEcategoryName.getAttribute("value").equals("QA_Autotest_Category_Changed_QA"));
         assertEquals("After changes new value must be: 'WSEditedCyborg'. but we got :" + categories.cErtb.getAttribute("value"), true, categories.cErtb.getAttribute("value").equals("WSEditedCyborg"));
-        assertEquals("After changes new value must be: 'Ukrainian'. but we got :" + selectLanguage.getFirstSelectedOption().getText(), true, selectLanguage.getFirstSelectedOption().getText().equals("Ukrainian"));
-        assertEquals("After changes new value must be: 'Colombia'. but we got :" + selectCountry.getFirstSelectedOption().getText(), true, selectCountry.getFirstSelectedOption().getText().equals("Colombia"));
+        assertEquals("After changes new value must be: 'Ukrainian'. but we got :" + categories.cELanguageDropDownMenuCSSLink.getText(), true, categories.cELanguageDropDownMenuCSSLink.getText().equals("Ukrainian"));
+        assertEquals("After changes new value must be: 'Colombia'. but we got :" + categories.cECountryDropDownMenuCSSLink.getText(), true, categories.cECountryDropDownMenuCSSLink.getText().equals("Colombia"));
         assertEquals("After changes new value must be: 'Google'. but we got :" + selectEngine.getFirstSelectedOption().getText(), true, selectEngine.getFirstSelectedOption().getText().equals("Google"));
     }
 
@@ -154,11 +160,21 @@ public class Category {
         categories.cEcategoryName.sendKeys(groupName);
         categories.cErtb.sendKeys("WSCyborg");
 
-        Select selectLanguage = new Select(categories.cELanguageDropDownMenu);
-        selectLanguage.selectByVisibleText("Tibetan");
+        //Old variants now does not work
+        //Select selectLanguage = new Select(categories.cELanguageDropDownMenu);
+        // selectLanguage.selectByVisibleText("Tibetan");
+        //Select selectCountry = new Select(categories.cEChooseCountryDropDownMenu);
+        //selectCountry.selectByVisibleText("India");
 
-        Select selectCountry = new Select(categories.cEChooseCountryDropDownMenu);
-        selectCountry.selectByVisibleText("India");
+        categories.cELanguageDropDownMenuCSSLink.click();
+        Actions lang = new Actions(driver);
+        lang.sendKeys("Tibetan").perform();
+        lang.sendKeys(Keys.ENTER).perform();
+
+        categories.cECountryDropDownMenuCSSLink.click();
+        Actions country = new Actions(driver);
+        country.sendKeys("India").perform();
+        country.sendKeys(Keys.ENTER).perform();
 
         Select selectEngine = new Select(categories.cEEngine);
         selectEngine.selectByVisibleText("Yandex");
