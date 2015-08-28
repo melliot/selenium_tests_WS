@@ -71,7 +71,7 @@ public class Category {
         Select selectEngine = new Select(categories.cEEngine);
 /*        Thread.sleep(3000);
         assertEquals("Value must be 'Yandex', but we got: " + selectEngine.getFirstSelectedOption(), true, selectEngine.getFirstSelectedOption().equals("Yandex "));
-        selectEngine.selectByVisibleText("Google");        */
+        selectEngine.selectByVisibleText("Google");       */
         categories.cEsaveButton.click();
 
         categories.open();
