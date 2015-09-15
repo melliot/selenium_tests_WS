@@ -9,6 +9,8 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -31,14 +33,34 @@ import static org.testng.AssertJUnit.assertEquals;
 
 public class Post {
 
+    private String createProjectId;
     private final String USER_AGENT = "Mozilla/5.0";
     private final String anchorPostUrl = "http://" + Hostname.HOSTNAME +"/api/v2/anchor_file.json";
     private final String comparatorUrl = "http://" + Hostname.HOSTNAME +"/api/v2/compare.json";
     private final String addPhrasesUrl = "http://" + Hostname.HOSTNAME +"/api/v2/compare/id/phrases.json";
-    private final String getStatusUrl = "http://" + Hostname.HOSTNAME +"/api/v2/compare/id.json?secret_token=" + Data.token;
-    private final String getProjectCalculationsResultUrl = "http://" + Hostname.HOSTNAME +"/api/v2/compare/project_id/list/list_num/results.json?secret_token=TOKEN&limit=10000&cursor=0";
-    private final String startCalculationsUrl = "http://" + Hostname.HOSTNAME +"/v2/compare/id/start.json";
 
+    private String getStatusUrl(String id){
+        String getStatusUrl = "http://" + Hostname.HOSTNAME +"/api/v2/compare/" + id +".json?secret_token=" + Data.token;
+        return getStatusUrl;
+    }
+
+    private String getResultsUrl(String project_id, int list_num){
+        String getProjectCalculationsResultUrl = "http://" + Hostname.HOSTNAME +"/api/v2/compare/" + project_id + "/list/" + list_num + "/results.json?secret_token=" + Data.token + "&limit=10000&cursor=0";
+        return getProjectCalculationsResultUrl;
+    }
+
+    private String startCalculations(String id){
+        String startCalculations = "http://" + Hostname.HOSTNAME +"/api/v2/compare/"+id+"/start.json";
+        return startCalculations;
+    }
+
+    public void setCreateProjectId(String createProjectId) {
+        this.createProjectId = createProjectId;
+    }
+
+    public String getCreateProjectId() {
+        return createProjectId;
+    }
 
 
     @Test
@@ -90,6 +112,42 @@ public class Post {
         Assert.assertTrue(actualResult.contains(expectedResult), caseAbout + ". Actual result is: " + actualResult);
         System.out.println(actualResult);
     }
+
+    @Test (groups = "startCalc")
+    public void startCalculations() throws Exception {
+        String urlParams = "{\"secret_token\": \""+Data.token+"\", \"config\": {\"buzzwords\": [\"с\", \"на\"]}}";
+        JSONObject actualResult = new JSONObject(executePost(comparatorUrl, urlParams));
+        JSONArray idArray = new JSONArray("[" + actualResult.get("project") + "]");
+        String startCalculationsID =  new JSONObject(idArray.get(0).toString().toString()).get("id").toString();
+        //          http://wordstat.lvlp.co/api/v2/compare/id/start.json
+
+
+        List<NameValuePair> urlParameters = new ArrayList<>();
+        urlParameters.add(new BasicNameValuePair("secret_token", Data.token));
+
+        //Send POST to URL and retrieve result
+        HashMap result = sendPostTo(startCalculations(startCalculationsID), urlParameters);
+        assertEquals("{responseBody={\"status\":\"OK\"}, statusCode=200}", result.toString());
+        setCreateProjectId(startCalculationsID);
+        System.out.println(getCreateProjectId());
+    }
+
+    @Test (groups = "startCalc", dependsOnMethods = "startCalculations")
+    public void getStatus() throws Exception {
+        Get get = new Get();
+        String result = get.sendGetTo(getStatusUrl(getCreateProjectId())).toString();
+        System.out.println(result);
+        assertEquals("{responseBody={\"status\":\"OK\",\"state\":\"finished\",\"lists\":[]}, statusCode=200}", result);
+    }
+
+    @Test (groups = "startCalc", dependsOnMethods = "getStatus")
+    public void getResults() throws Exception {
+        Get get = new Get();
+        String result = get.sendGetTo(getResultsUrl(getCreateProjectId(), 0)).toString();
+        System.out.println(result);
+        assertEquals("{responseBody={\"status\":\"OK\",\"phrases\":[],\"cursor\":0}, statusCode=200}", result);
+    }
+
 
     @Test
     public void addPhrases(){

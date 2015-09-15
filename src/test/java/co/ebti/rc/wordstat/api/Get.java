@@ -356,7 +356,7 @@ public class Get {
     }
 
     // HTTP GET request
-    private HashMap sendGetTo(String url) throws Exception {
+    public HashMap sendGetTo(String url) throws Exception {
 
         HashMap hashMap = new HashMap();
         HttpClient client = new DefaultHttpClient();
