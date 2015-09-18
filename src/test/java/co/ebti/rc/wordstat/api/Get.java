@@ -276,10 +276,13 @@ public class Get {
         }
 
         assertEquals("First record contain text: 'full_exact_weight', 'exact_weight', 'weight', 'keyword'. Received response is:" + responseBody.toString(), firstElementOfResponseArray
-                .contains("full_exact_weight") && firstElementOfResponseArray
-                .contains("exact_weight") && firstElementOfResponseArray
+                .contains("exclamation_exact_weight") && firstElementOfResponseArray
+                .contains("phrase") && firstElementOfResponseArray
                 .contains("weight") && firstElementOfResponseArray
-                .contains("keyword"), true);
+                .contains("exact_weight") && firstElementOfResponseArray
+                .contains("variants") && firstElementOfResponseArray
+                .contains("permutations") && firstElementOfResponseArray
+                .contains("id"), true);
     }
 
     @Test (dependsOnMethods = "apiGetGroups")
