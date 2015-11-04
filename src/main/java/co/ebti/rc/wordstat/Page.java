@@ -4,9 +4,11 @@ import com.thoughtworks.selenium.SeleniumException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.File;
 import java.util.Date;
 
 
@@ -19,6 +21,12 @@ public abstract class Page {
         this.driver = driver;
     }
 
+    public static WebDriver initChromeDriver(){
+        File file = new File("c:\\driver\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", file.getAbsolutePath());
+        WebDriver driverX = new ChromeDriver();
+        return driverX;
+    }
     public void refresh() {
         driver.navigate().refresh();
     }
@@ -47,6 +55,18 @@ public abstract class Page {
             }
         }
         return false;
+    }
+
+    public boolean isElementPresentFast(WebElement element) {
+        boolean a = true;
+        try {
+                if (element.isDisplayed()) {
+                    return a==true;
+                }
+            } catch (Exception ignored) {
+                return a==false;
+            }
+        return a;
     }
 
     public boolean isElementNotPresent(WebElement element) {
@@ -103,6 +123,12 @@ public abstract class Page {
     public static void throwExceptionIfNumberOfErrorsMoreThanZero(int ifNumberOfErrorsMoreThanZero){
         if(ifNumberOfErrorsMoreThanZero>0){
             throw new SeleniumException("We have " + ifNumberOfErrorsMoreThanZero + " errors. See test log.");
+        }
+    }
+
+    public static void throwExceptionIfNumberOfErrorsMoreThanZero(int ifNumberOfErrorsMoreThanZero, int maxNumberOfPossibleErrors){
+        if(ifNumberOfErrorsMoreThanZero>0){
+            throw new SeleniumException("We have " + ifNumberOfErrorsMoreThanZero + " out of "+ maxNumberOfPossibleErrors +" errors. See log");
         }
     }
 

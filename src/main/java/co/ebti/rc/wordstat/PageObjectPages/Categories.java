@@ -32,6 +32,9 @@ public class Categories extends Page {
     @FindBy(linkText = "Edit")
     public WebElement editCategory;
 
+    @FindBy(linkText = "Edit Stop Words")
+    public WebElement editSW;
+
     @FindBy(linkText = "filmler (movies)")
     public WebElement linkTextFromTR;
 
@@ -83,6 +86,67 @@ public class Categories extends Page {
     //inside category
     @FindBy(xpath = "//a[contains(text(),'Remove Category')]")
     public WebElement removeCategory;
+
+    //Edit stop words
+    @FindBy(id = "word")
+    public WebElement swTextField;
+
+    @FindBy(name = "commit")
+    public WebElement addStopWordsButton;
+
+    @FindBy(className = "btn btn-success generate_morphology_button")
+    public WebElement generateMorphologyButton;
+
+    @FindBy(id = "select-all")
+    public WebElement selectAllCheckbox;
+
+    //block "With Selected:" buttons
+    @FindBy(css = "button.btn.btn-danger")
+    public WebElement deleteAllFromSWTextFieldButton;
+
+    @FindBy(css = "div.btn.js-stop-words-to-form")
+    public WebElement toNewGoodStopPair;
+
+    //also we need to add buffer button
+
+    //Good/Stop Pairs
+
+    @FindBy(xpath = "(//a[contains(text(),'Delete')])[2]")
+    public WebElement deleteSWPairFromLevel2;
+
+    @FindBy(css = "a.btn.btn-danger")
+    public WebElement deleteSWPairFromLevel1;
+
+    @FindBy(id = "filter_push_words")
+    public WebElement goodWordsField;
+
+    @FindBy(id = "filter_stop_words")
+    public WebElement stopWordsField;
+
+    @FindBy(css = "td > input[name=\"commit\"]")
+    public WebElement createPairButton;
+
+    @FindBy(css = "div.js-add-other-level > #new_filter > #filter_stop_words")
+    public WebElement addStopWordToLevel2Pair;
+
+    @FindBy(css = "div.js-add-other-level > #new_filter > #filter_push_words")
+    public WebElement addGoodWordToLevel2Pair;
+
+    @FindBy(css = "div.js-add-other-level > #new_filter > table > tbody > tr > td > input[name=\"commit\"]")
+    public WebElement createLevel2SWPair;
+
+    @FindBy(css = "div.filter-holder > div.btn")
+    public WebElement addLevel2ToSWPair;
+
+    @FindBy(css = "div.btn.js-fill-from-selected")
+    public WebElement fillFromSelectedButton;
+
+    @FindBy(css = "input.btn")
+    public WebElement doneButton;
+
+    //for SW tests, check quantity of keywords on anchor page
+    @FindBy(css = "span.badge.badge-success")
+    public WebElement valueOfGroupKeywords;
 
     @Override
     public void open() {
