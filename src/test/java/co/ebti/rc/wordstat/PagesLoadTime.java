@@ -4,7 +4,6 @@ import co.ebti.rc.wordstat.PageObjectPages.Categories;
 import co.ebti.rc.wordstat.PageObjectPages.Groups;
 import co.ebti.rc.wordstat.PageObjectPages.Login;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -24,7 +23,8 @@ public class PagesLoadTime {
 
     @BeforeMethod
     public void createDriver(){
-        driver = new FirefoxDriver();
+        //driver = new FirefoxDriver();
+        driver = Page.initChromeDriver();
         loginPageElements = PageFactory.initElements(driver, Login.class);
         loginPageElements.openAndLogin();
     }

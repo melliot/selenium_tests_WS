@@ -22,16 +22,16 @@ public class Get {
 
     private final String USER_AGENT = "Mozilla/5.0";
     private final String getGroupsApiLink = "/api/v2/groups.json";
-    private final String getTreeApiLink = "/api/v2/tree.json";
-    private final String getAnchorTemplates = "/api/v2/groups_templates.json";
-    private final String getGroupKeywords = "/api/v2/group_keywords.json";
-    private final String getTopics = "/api/v2/topics.json";
-    private final String getTopicGroups = "/api/v2/topic_groups.json";
-    private final String getLanguages = "/api/v2/languages.json";
-    private final String getTopicLanguages = "/api/v2/topic_language.json";
-    private final String getTopicsLanguages = "/api/v2/topics_languages.json";
-    private final String getLanguageTopics = "/api/v2/language_topics.json";
-    private final String getKeywordsInfo = "/api/v2/keywords_info.json";
+    private final String getTreeApiLink = "/api/v3/tree.json";
+    private final String getAnchorTemplates = "/api/v3/groups_templates.json";
+    private final String getGroupKeywords = "/api/v3/group_keywords.json";
+    private final String getTopics = "/api/v3/topics.json";
+    private final String getTopicGroups = "/api/v3/topic_groups.json";
+    private final String getLanguages = "/api/v3/languages.json";
+    private final String getTopicLanguages = "/api/v3/topic_language.json";
+    private final String getTopicsLanguages = "/api/v3/topics_languages.json";
+    private final String getLanguageTopics = "/api/v3/language_topics.json";
+    private final String getKeywordsInfo = "/api/v3/keywords_info.json";
 
     private final String ruCategoryId = "a525ba202523013125b654ae52c4d3c2";
     private JSONObject someGroup;
@@ -122,6 +122,7 @@ public class Get {
         JSONArray responseBody = new JSONArray(result.get("responseBody").toString());
         String firstElementOfResponseArray = responseBody.get(0).toString();
 
+        System.out.println(firstElementOfResponseArray);
         assertEquals("First record contain text: 'templates', 'name', 'id'. Received response is:" + responseBody.toString(), firstElementOfResponseArray
                 .contains("templates") && firstElementOfResponseArray
                 .contains("name") && firstElementOfResponseArray
@@ -229,11 +230,13 @@ public class Get {
 
         //Check statusCode & body for correct values
         assertEquals("Expected  200, but got " + result.get("statusCode").toString(), true, result.get("statusCode").toString().equals("200"));
+        String responseBody1 = result.get("responseBody").toString();
+        System.out.println(responseBody1);
 
         JSONArray responseBody = new JSONArray(result.get("responseBody").toString());
         String firstElementOfResponseArray = responseBody.get(0).toString();
 
-        assertEquals("First record contain text: 'topic_id'. Received response is:" + responseBody.toString(), firstElementOfResponseArray
+        assertEquals("IN PROGRESSS First record contain text: 'topic_id'. Received response is:" + responseBody.toString(), firstElementOfResponseArray
                 .contains("topic_id"), true);
     }
 
@@ -247,6 +250,7 @@ public class Get {
         //Check statusCode & body for correct values
         assertEquals("Expected  200, but got " + result.get("statusCode").toString(), true, result.get("statusCode").toString().equals("200"));
 
+        System.out.println("IN PROGRESSS " + result.get("responseBody").toString());
         JSONArray responseBody = new JSONArray(result.get("responseBody").toString());
         String firstElementOfResponseArray = responseBody.get(0).toString();
         String expectedResponce = "{\"full_exact_weight\":null,\"exact_weight\":null,\"weight\":null,\"keyword\":\"NO_WORD_HERE\"}";
@@ -259,7 +263,7 @@ public class Get {
     public void apiGetGroupKeywords() throws Exception {
         //String url = Hostname.getHostName() + getAnchorTemplates +"?secret_token="+Data.token;
         //String url = Hostname.getHostName() + getGroupKeywords + "?group_id=" + someGroup.get("id") + "&secret_token=" +Data.token;
-        String url = Hostname.getHostName() + getGroupKeywords + "?group_id=" + "40059c20457d013288d4002590e75102" + "&secret_token=" +Data.token;
+        String url = Hostname.getHostName() + getGroupKeywords + "?group_id=" + "7d1a52207f9601328bd3002590e75102" + "&secret_token=" +Data.token;
 
         //Send Get to URL and retrieve result
         HashMap result = sendGetTo(url);
@@ -268,10 +272,13 @@ public class Get {
         assertEquals("Expected 200, but got " + result.get("statusCode").toString(), true, result.get("statusCode").toString().equals("200"));
 
         //Get response body, then get first record from response array
-        JSONArray responseBody = new JSONArray(result.get("responseBody").toString());
-        String firstElementOfResponseArray = responseBody.get(0).toString();
+        //JSONArray responseBody = new JSONArray(result.get("responseBody").toString());
+        JSONObject responseBody = new JSONObject(result.get("responseBody").toString());
+        //String firstElementOfResponseArray = responseBody.get(0).toString();
+        System.out.println(responseBody);
+        assertEquals("not_implemented yet", responseBody.toString().contains("WHY NPT OMPLEMENTED"),true);
 
-        for(int a = 0; a < responseBody.length(); a++){
+/*        for(int a = 0; a < responseBody.length(); a++){
             System.out.println(responseBody.get(a).toString());
         }
 
@@ -282,7 +289,7 @@ public class Get {
                 .contains("exact_weight") && firstElementOfResponseArray
                 .contains("variants") && firstElementOfResponseArray
                 .contains("permutations") && firstElementOfResponseArray
-                .contains("id"), true);
+                .contains("id"), true);*/
     }
 
     @Test (dependsOnMethods = "apiGetGroups")
@@ -300,6 +307,7 @@ public class Get {
 
         //Get response body, then get first record from response array
         JSONObject responseBody = new JSONObject(result.get("responseBody").toString());
+        System.out.println(responseBody);
         JSONArray keywords = (JSONArray) responseBody.get("keywords");
         String firstElementOfResponseArray = keywords.get(0).toString();
 
@@ -348,14 +356,19 @@ public class Get {
         JSONArray responseBody = new JSONArray(responceBodyStr);
         String firstElementOfResponseArray = responseBody.get(0).toString();
 
-        assertEquals("First record contain text: 'suggested', 'phrase', 'alias_phrases'", firstElementOfResponseArray
-                .contains("suggested") && firstElementOfResponseArray
-                .contains("phrase") && firstElementOfResponseArray
-                .contains("alias_phrases"), true);
-        assertEquals("First record contain text: 'weight', 'id', 'group_aliases_weights'", firstElementOfResponseArray
-                .contains("weight") && firstElementOfResponseArray
+        assertEquals("First record contain text: tags/ancestry/id/weight/origin_id/keyword_id. Actual response is: " + firstElementOfResponseArray, firstElementOfResponseArray
+                .contains("tags") && firstElementOfResponseArray
+                .contains("ancestry") && firstElementOfResponseArray
                 .contains("id") && firstElementOfResponseArray
-                .contains("group_aliases_weights"), true);
+                .contains("weight") && firstElementOfResponseArray
+                .contains("origin_id") && firstElementOfResponseArray
+                .contains("keyword_id"), true);
+        assertEquals("First record contain text: phrase/alias_phrases/full_exact_weight/exact_weight/node_id. Actual response is: " + firstElementOfResponseArray, firstElementOfResponseArray
+                .contains("phrase") && firstElementOfResponseArray
+                .contains("alias_phrases") && firstElementOfResponseArray
+                .contains("full_exact_weight") && firstElementOfResponseArray
+                .contains("exact_weight") && firstElementOfResponseArray
+                .contains("node_id"), true);
     }
 
     // HTTP GET request

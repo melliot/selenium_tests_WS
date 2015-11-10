@@ -127,7 +127,7 @@ public class Post {
 
         //Send POST to URL and retrieve result
         HashMap result = sendPostTo(startCalculations(startCalculationsID), urlParameters);
-        assertEquals("{responseBody={\"status\":\"OK\"}, statusCode=200}", result.toString());
+        assertEquals("{statusCode=200, responseBody={\"status\":\"OK\"}}", result.toString());
         setCreateProjectId(startCalculationsID);
         System.out.println(getCreateProjectId());
     }
@@ -137,7 +137,7 @@ public class Post {
         Get get = new Get();
         String result = get.sendGetTo(getStatusUrl(getCreateProjectId())).toString();
         System.out.println(result);
-        assertEquals("{responseBody={\"status\":\"OK\",\"state\":\"finished\",\"lists\":[]}, statusCode=200}", result);
+        assertEquals("{statusCode=200, responseBody={\"status\":\"OK\",\"state\":\"finished\",\"lists\":[]}}", result);
     }
 
     @Test (groups = "startCalc", dependsOnMethods = "getStatus")
@@ -145,7 +145,7 @@ public class Post {
         Get get = new Get();
         String result = get.sendGetTo(getResultsUrl(getCreateProjectId(), 0)).toString();
         System.out.println(result);
-        assertEquals("{responseBody={\"status\":\"OK\",\"phrases\":[],\"cursor\":0}, statusCode=200}", result);
+        assertEquals("{statusCode=200, responseBody={\"status\":\"OK\",\"phrases\":[],\"cursor\":0}}", result);
     }
 
 

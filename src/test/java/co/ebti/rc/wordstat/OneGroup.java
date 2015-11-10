@@ -4,7 +4,6 @@ import co.ebti.rc.wordstat.PageObjectPages.Group;
 import co.ebti.rc.wordstat.PageObjectPages.Groups;
 import co.ebti.rc.wordstat.PageObjectPages.Login;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.AfterMethod;
@@ -29,7 +28,8 @@ public class OneGroup {
 
     @BeforeMethod
     public void createDriver(){
-        driver = new FirefoxDriver();
+        //driver = new FirefoxDriver();
+        driver = Page.initChromeDriver();
         page = PageFactory.initElements(driver, Login.class);
         page.openAndLogin();
         page.editProfileLink.isDisplayed();

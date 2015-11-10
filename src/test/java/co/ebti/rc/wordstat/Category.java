@@ -5,7 +5,6 @@ import co.ebti.rc.wordstat.PageObjectPages.Login;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
@@ -28,7 +27,8 @@ public class Category {
 
     @BeforeMethod
     public void createDriver(){
-        driver = new FirefoxDriver();
+        //driver = new FirefoxDriver();
+        driver = Page.initChromeDriver();
         loginPageElements = PageFactory.initElements(driver, Login.class);
         loginPageElements.openAndLogin();
         loginPageElements.editProfileLink.isDisplayed();

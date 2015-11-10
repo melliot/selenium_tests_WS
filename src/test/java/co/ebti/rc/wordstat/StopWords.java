@@ -3,7 +3,6 @@ package co.ebti.rc.wordstat;
 import co.ebti.rc.wordstat.PageObjectPages.Categories;
 import co.ebti.rc.wordstat.PageObjectPages.Login;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.*;
 
@@ -41,8 +40,8 @@ public class StopWords {
 
     @BeforeMethod
     public void createDriver() throws InterruptedException {
-        //driver = Page.initChromeDriver();
-        driver = new FirefoxDriver();
+        driver = Page.initChromeDriver();
+        //driver = new FirefoxDriver();
         //login
         loginPageElements = PageFactory.initElements(driver, Login.class);
         loginPageElements.openAndLogin();

@@ -4,7 +4,6 @@ import co.ebti.rc.wordstat.PageObjectPages.*;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.*;
 
@@ -121,7 +120,8 @@ public class RoleBasedAccessControl {
 
     @BeforeMethod
     public void createDriver(){
-        driver = new FirefoxDriver();
+        //driver = new FirefoxDriver();
+        driver = Page.initChromeDriver();
         loginPE = PageFactory.initElements(driver, Login.class);
     }
 
