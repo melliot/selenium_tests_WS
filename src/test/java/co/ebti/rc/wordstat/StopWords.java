@@ -216,9 +216,10 @@ public class StopWords {
     }
 
     public void navigateAndCheckNumberOfKeywords(String group, String groupLink, String numberOfKeywords) throws InterruptedException {
+        int i = 0;
         driver.navigate().to(groupLink);  //QA, тест стоп слов, Assembled
         categories.waitForElementVisible10Sec(categories.valueOfGroupKeywords);
-        while (categories.textOnThePageContains("results: refreshing")||categories.textOnThePageContains("results: outdated")){Thread.sleep(2000);driver.navigate().refresh();}
+        while (categories.textOnThePageContains("results: refreshing")||categories.textOnThePageContains("results: outdated")||i<30){Thread.sleep(2000);driver.navigate().refresh();i++;}
         try {
             assertEquals("Check keywords in " + group + " test group", numberOfKeywords, categories.valueOfGroupKeywords.getText());
         } catch (AssertionError e){
