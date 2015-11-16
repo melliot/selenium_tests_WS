@@ -272,24 +272,20 @@ public class Get {
         assertEquals("Expected 200, but got " + result.get("statusCode").toString(), true, result.get("statusCode").toString().equals("200"));
 
         //Get response body, then get first record from response array
-        //JSONArray responseBody = new JSONArray(result.get("responseBody").toString());
-        JSONObject responseBody = new JSONObject(result.get("responseBody").toString());
-        //String firstElementOfResponseArray = responseBody.get(0).toString();
+        JSONArray responseBody = new JSONArray(result.get("responseBody").toString());
+        String firstElementOfResponseArray = responseBody.get(0).toString();
         System.out.println(responseBody);
-        assertEquals("not_implemented yet", responseBody.toString().contains("WHY NPT OMPLEMENTED"),true);
 
-/*        for(int a = 0; a < responseBody.length(); a++){
+        for(int a = 0; a < responseBody.length(); a++){
             System.out.println(responseBody.get(a).toString());
         }
 
         assertEquals("First record contain text: 'full_exact_weight', 'exact_weight', 'weight', 'keyword'. Received response is:" + responseBody.toString(), firstElementOfResponseArray
-                .contains("exclamation_exact_weight") && firstElementOfResponseArray
-                .contains("phrase") && firstElementOfResponseArray
-                .contains("weight") && firstElementOfResponseArray
+                .contains("full_exact_weight") && firstElementOfResponseArray
                 .contains("exact_weight") && firstElementOfResponseArray
-                .contains("variants") && firstElementOfResponseArray
-                .contains("permutations") && firstElementOfResponseArray
-                .contains("id"), true);*/
+                .contains("weight") && firstElementOfResponseArray
+                .contains("id") && firstElementOfResponseArray
+                .contains("keyword"), true);
     }
 
     @Test (dependsOnMethods = "apiGetGroups")
@@ -300,6 +296,8 @@ public class Get {
         //Send Get to URL and retrieve result
         HashMap result = sendGetTo(url);
 
+        assertEquals("First record contain text: 'full_exact_weight', 'exact_weight', 'weight', 'keyword'. Received response is:" + result.toString(), result.toString()
+                .contains("keywords"), true);
         //Check statusCode & body for correct values
         assertEquals("Expected 200, but got " + result.get("statusCode").toString(), true, result.get("statusCode").toString().equals("200"));
         System.out.println(sendGetTo(url).toString());
@@ -307,19 +305,21 @@ public class Get {
 
         //Get response body, then get first record from response array
         JSONObject responseBody = new JSONObject(result.get("responseBody").toString());
+
         System.out.println(responseBody);
         JSONArray keywords = (JSONArray) responseBody.get("keywords");
-        String firstElementOfResponseArray = keywords.get(0).toString();
+        //String firstElementOfResponseArray = keywords.get(0).toString();
 
         for(int a = 0; a < keywords.length(); a++){
             System.out.println(keywords.get(a).toString());
         }
 
-        assertEquals("First record contain text: 'full_exact_weight', 'exact_weight', 'weight', 'keyword'. Received response is:" + responseBody.toString(), firstElementOfResponseArray
-                .contains("full_exact_weight") && firstElementOfResponseArray
-                .contains("exact_weight") && firstElementOfResponseArray
-                .contains("weight") && firstElementOfResponseArray
-                .contains("keyword"), true);
+        assertEquals("First record contain text: 'full_exact_weight', 'exact_weight', 'weight', 'keyword'. Received response is:" + responseBody.toString(), responseBody.toString()
+                .contains("per_page") && responseBody.toString()
+                .contains("total") && responseBody.toString()
+                .contains("pages") && responseBody.toString()
+                .contains("page") && responseBody.toString()
+                .contains("keywords"), true);
     }
 
     @DataProvider
