@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
 
 /**
  * Created by Korniev.Oleksandr on 02.12.2014.
@@ -127,7 +128,10 @@ public class Post {
 
         //Send POST to URL and retrieve result
         HashMap result = sendPostTo(startCalculations(startCalculationsID), urlParameters);
-        assertEquals("{statusCode=200, responseBody={\"status\":\"OK\"}}", result.toString());
+        assertTrue("Received message: " + result.toString(), result.toString()
+                .contains("statusCode=200")&result.toString()
+                .contains("{\"status\":\"OK\"}"));
+
         setCreateProjectId(startCalculationsID);
         System.out.println(getCreateProjectId());
     }
@@ -137,7 +141,9 @@ public class Post {
         Get get = new Get();
         String result = get.sendGetTo(getStatusUrl(getCreateProjectId())).toString();
         System.out.println(result);
-        assertEquals("{statusCode=200, responseBody={\"status\":\"OK\",\"state\":\"finished\",\"lists\":[]}}", result);
+        assertTrue("Received message: " + result.toString(), result.toString()
+                .contains("statusCode=200")&result.toString()
+                .contains("responseBody={\"status\":\"OK\",\"state\":\"finished\",\"lists\":[]"));
     }
 
     @Test (groups = "startCalc", dependsOnMethods = "getStatus")
@@ -145,7 +151,9 @@ public class Post {
         Get get = new Get();
         String result = get.sendGetTo(getResultsUrl(getCreateProjectId(), 0)).toString();
         System.out.println(result);
-        assertEquals("{statusCode=200, responseBody={\"status\":\"OK\",\"phrases\":[],\"cursor\":0}}", result);
+        assertTrue("Received message: " + result.toString(), result.toString()
+                .contains("statusCode=200")&result.toString()
+                .contains("responseBody={\"status\":\"OK\",\"phrases\":[],\"cursor\":0}"));
     }
 
 

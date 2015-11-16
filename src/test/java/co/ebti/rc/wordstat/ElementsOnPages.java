@@ -61,14 +61,14 @@ public class ElementsOnPages {
         assertEquals("Page contains the link 'order by role'",true, page.textOnThePageContains("<a href=\"/accounts?order_by=role\"> Role</a>"));
         assertEquals("Page contains the link 'Checkbox'", true, page.textOnThePageContains("name=\"account_ids[]"));
         assertEquals("Page contains the link 'edit account'",true, page.textOnThePageContains("edit"));
-        assertEquals("Page contains the link 'delete account'", true, page.textOnThePageContains("\"delete\" data-confirm=\"Are you sure?\""));
+        assertEquals("Page contains the link 'delete account'", true, page.textOnThePageContains("data-confirm=\"Are you sure?\" data-method=\"delete\""));
     }
 
     @Test
     public void checkGroupsElements() throws InterruptedException {
         driver.get("http://wordstat.rc.ebti.co/groups");
         assertEquals("Page contains the link 'groups list'", true, page.textOnThePageContains("<a href=\"/groups\">"));
-        assertEquals("Page contains the link 'create new group'",true, page.textOnThePageContains("<a id=\"new\" href=\"/groups/new\">"));
+        assertEquals("Page contains the link 'create new group'",true, page.textOnThePageContains("<a href=\"/groups/new\" id=\"new\">"));
         assertEquals("Page contains the block 'Search'", true, page.textOnThePageContains("<div class=\"span12\">"));
         assertEquals("Page contains the text 'name'",true, page.textOnThePageContains("name"));
         assertEquals("Page contains the text 'weight'", true, page.textOnThePageContains("weight"));

@@ -11,6 +11,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 /**
  * Created by Korniev.Oleksandr on 23.10.2014.
@@ -234,9 +235,7 @@ public class RoleBasedAccessControl {
             accountsPE.user_secret_token.isDisplayed();
         }
         if (email.equals(Data.guestEmail)||email.equals(Data.managerEmail)||email.equals(Data.seoEmail)||email.equals(Data.seoManagerEmail)) {
-            try {
-            accountsPE.apiKeyLink.isDisplayed();}
-            catch (NoSuchElementException e){assertEquals(true, e.toString().contains("org.openqa.selenium.NoSuchElementException: Unable to locate element: {\"method\":\"partial link text\",\"selector\":\"API key\"}"));}
+            assertFalse("If user can see api page than fail",accountsPE.isElementPresentFast(accountsPE.apiKeyLink));
         }
     }
 

@@ -123,10 +123,10 @@ public class Get {
         String firstElementOfResponseArray = responseBody.get(0).toString();
 
         System.out.println(firstElementOfResponseArray);
-        assertEquals("First record contain text: 'templates', 'name', 'id'. Received response is:" + responseBody.toString(), firstElementOfResponseArray
-                .contains("templates") && firstElementOfResponseArray
-                .contains("name") && firstElementOfResponseArray
-                .contains("id"), true);
+            assertEquals("First record contain text: 'templates', 'name', 'id'. Received response is:" + responseBody.toString(), firstElementOfResponseArray
+                    .contains("templates") && firstElementOfResponseArray
+                    .contains("name") && firstElementOfResponseArray
+                    .contains("id"), true);
 
         System.out.println(result.get("responseBody").toString());
     }
