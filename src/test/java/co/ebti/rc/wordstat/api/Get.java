@@ -124,9 +124,8 @@ public class Get {
 
         System.out.println(firstElementOfResponseArray);
             assertEquals("First record contain text: 'templates', 'name', 'id'. Received response is:" + responseBody.toString(), firstElementOfResponseArray
-                    .contains("templates") && firstElementOfResponseArray
-                    .contains("name") && firstElementOfResponseArray
-                    .contains("id"), true);
+                    .contains("uid") && firstElementOfResponseArray
+                    .contains("name"), true);
 
         System.out.println(result.get("responseBody").toString());
     }
