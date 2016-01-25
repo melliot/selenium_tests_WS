@@ -12,9 +12,6 @@ import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertTrue;
 
-/**
- * Created by Korniev.Oleksandr on 13.02.2015.
- */
 public class OneGroup {
 
     private WebDriver driver;

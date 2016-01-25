@@ -5,9 +5,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-/**
- * Created by Korniev.Oleksandr on 29.10.2014.
- */
 public class ParserSettings extends Page {
     public ParserSettings(WebDriver driver) {
         super(driver);

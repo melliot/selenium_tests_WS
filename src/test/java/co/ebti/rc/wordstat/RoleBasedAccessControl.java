@@ -13,10 +13,6 @@ import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-/**
- * Created by Korniev.Oleksandr on 23.10.2014.
- */
-
 public class RoleBasedAccessControl {
 
     private WebDriver driver;

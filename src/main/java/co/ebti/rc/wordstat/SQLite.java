@@ -3,13 +3,6 @@ package co.ebti.rc.wordstat;
 import java.sql.*;
 import java.util.ArrayList;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Администратор
- * Date: 12.06.14
- * Time: 15:46
- * To change this template use File | Settings | File Templates.
- */
 public class SQLite {
     private static String DBAdress = "org.sqlite.JDBC";
     private static String DBConnectionAdress = "jdbc:sqlite:test.sqlite";

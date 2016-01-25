@@ -4,7 +4,6 @@ import javax.mail.*;
 import javax.mail.internet.*;
 import java.util.Properties;
 
-
 public class EmailSender {
 
     private static final String SMTP_HOST_NAME = "mail.wiseweb.co";

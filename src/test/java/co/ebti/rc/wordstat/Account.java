@@ -12,11 +12,6 @@ import org.testng.annotations.Test;
 
 import static org.testng.AssertJUnit.assertEquals;
 
-/**
- * Created by Korniev.Oleksandr on 13.10.2014.
- */
-
-
 public class Account {
 
     private WebDriver driver;

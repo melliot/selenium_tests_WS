@@ -1,8 +1,5 @@
 package co.ebti.rc.wordstat;
 
-/**
- * Created by Korniev.Oleksandr on 03.11.2014.
- */
 public class Data {
     //Test users data
     public static String developerEmail = "js_devloper@s1omers.ku";

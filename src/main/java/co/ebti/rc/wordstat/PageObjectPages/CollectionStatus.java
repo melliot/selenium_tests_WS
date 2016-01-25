@@ -3,9 +3,6 @@ package co.ebti.rc.wordstat.PageObjectPages;
 import co.ebti.rc.wordstat.Page;
 import org.openqa.selenium.WebDriver;
 
-/**
- * Created by Korniev.Oleksandr on 29.10.2014.
- */
 public class CollectionStatus extends Page{
     public CollectionStatus(WebDriver driver) {
         super(driver);

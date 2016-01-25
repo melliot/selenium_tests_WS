@@ -1,9 +1,5 @@
 package co.ebti.rc.wordstat;
 
-/**
- * Created by Korniev.Oleksandr on 24.03.2015.
- */
-
 import co.ebti.rc.wordstat.PageObjectPages.Groups;
 import co.ebti.rc.wordstat.PageObjectPages.Login;
 import org.openqa.selenium.WebDriver;

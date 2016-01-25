@@ -5,10 +5,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-/**
- * Created by Korniev.Oleksandr on 10.10.2014.
- */
-
 public class Groups extends Page {
     public Groups(WebDriver driver) {
         super(driver);

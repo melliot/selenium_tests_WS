@@ -8,13 +8,6 @@ import org.testng.annotations.*;
 
 import static org.testng.AssertJUnit.assertEquals;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Администратор
- * Date: 06.10.15
- * Time: 20:45
- * To change this template use File | Settings | File Templates.
- */
 public class StopWords {
 
     private WebDriver driver;

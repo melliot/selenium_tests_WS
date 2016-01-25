@@ -1,8 +1,5 @@
 package co.ebti.rc.wordstat;
 
-/**
- * Created by Korniev.Oleksandr on 12.12.2014.
- */
 public class Api {
 
     //Список деревьев кейвордов группы
