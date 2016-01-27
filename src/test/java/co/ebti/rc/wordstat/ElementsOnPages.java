@@ -14,7 +14,6 @@ public class ElementsOnPages {
     private WebDriver driver;
     private Login page;
 
-
     @BeforeMethod
     public void createDriver(){
         //driver = new FirefoxDriver();

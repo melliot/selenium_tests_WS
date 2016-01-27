@@ -16,7 +16,6 @@ public class GroupsSearch {
     private String errorMessage = "We're sorry, but something went wrong.";
     private int numberOfErrors;
 
-
     @BeforeMethod
     public void createDriver(){
         //driver = new FirefoxDriver();

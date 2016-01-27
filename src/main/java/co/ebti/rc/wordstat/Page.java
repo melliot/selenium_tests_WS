@@ -1,16 +1,18 @@
 package co.ebti.rc.wordstat;
 
 import com.thoughtworks.selenium.SeleniumException;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.remote.Augmenter;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Date;
-
 
 public abstract class Page {
 
@@ -21,12 +23,21 @@ public abstract class Page {
         this.driver = driver;
     }
 
-    public static WebDriver initChromeDriver(){
-        File file = new File("c:\\driver\\chromedriver.exe");
-        System.setProperty("webdriver.chrome.driver", file.getAbsolutePath());
-        WebDriver driverX = new ChromeDriver();
-        return driverX;
+    public static WebDriver initChromeDriver() {
+        try {
+            WebDriver driver = new RemoteWebDriver(
+                    new URL("http://localhost:4444/wd/hub"), DesiredCapabilities.chrome()
+            );
+            driver.manage().window().setSize(new Dimension(1920, 1080));
+
+            return driver;
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
+
     public void refresh() {
         driver.navigate().refresh();
     }
@@ -40,7 +51,6 @@ public abstract class Page {
         webElement.clear();
         webElement.sendKeys(text);
     }
-
 
     public abstract void open();
 
@@ -58,15 +68,14 @@ public abstract class Page {
     }
 
     public boolean isElementPresentFast(WebElement element) {
-        boolean a = true;
         try {
                 if (element.isDisplayed()) {
-                    return a==true;
+                    return true;
                 }
-            } catch (Exception ignored) {
-                return a==false;
-            }
-        return a;
+        } catch (Exception ignored) {
+                return false;
+        }
+        return true;
     }
 
     public boolean isElementNotPresent(WebElement element) {
@@ -243,5 +252,4 @@ public abstract class Page {
     public WebDriver getDriver() {
         return driver;
     }
-
 }

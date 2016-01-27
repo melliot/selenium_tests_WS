@@ -15,7 +15,6 @@ public class Authorization {
     private WebDriver driver;
     private Login loginPageElements;
 
-
     @BeforeMethod
     public void createDriver(){
         //driver = new FirefoxDriver();

@@ -3,7 +3,8 @@
 <suite name="Regression" verbose="1" >
     <test name="Regression">
         <classes>
-
+            <class name="co.ebti.rc.wordstat.api.Get"/>
+            <class name="co.ebti.rc.wordstat.api.Post"/>
         </classes>
     </test>
 </suite>

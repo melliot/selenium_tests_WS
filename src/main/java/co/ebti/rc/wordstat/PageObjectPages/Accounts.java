@@ -23,7 +23,6 @@ public class Accounts extends Page{
     @FindBy(css = "a[title=\"delete John Smith\"] > i.icon-trash")
     public WebElement deleteJohnSmith;
 
-
     //New Account webElements
     @FindBy(id = "user_name")
     public WebElement accountName;

@@ -10,8 +10,7 @@ public class Hostname {
     private static final String DBNAME = "elen";
 
     public static String getHostName() {
-        String internal = "http://" + HOSTNAME;
-        return internal;
+        return "http://" + HOSTNAME;
     }
 
     public static String getBasicHostName() {

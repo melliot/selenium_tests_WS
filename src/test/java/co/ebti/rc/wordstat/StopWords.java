@@ -14,7 +14,6 @@ public class StopWords {
     private Categories categories;
     private Login loginPageElements;
     private long start;
-
     private int numberOfErrors;
     private String assembledTestGroup = "http://wordstat.rc.ebti.co/groups/3263/result/anchor_file";
     private String testGroupCat = "http://wordstat.rc.ebti.co/groups/3264/result/anchor_file";

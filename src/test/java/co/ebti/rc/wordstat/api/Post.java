@@ -12,7 +12,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.testng.annotations.Test;
-
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStream;
@@ -25,10 +24,6 @@ import java.util.List;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
-
-/**
- * Created by Korniev.Oleksandr on 02.12.2014.
- */
 
 public class Post {
 
@@ -60,7 +55,6 @@ public class Post {
     public String getCreateProjectId() {
         return createProjectId;
     }
-
 
     @Test
     public void getAnchorFile() throws Exception {
@@ -122,8 +116,6 @@ public class Post {
         System.out.println(actualResult);
         Assert.assertTrue(actualResult.contains(expectedResult), caseAbout + ". Actual result is: " + actualResult);
     }
-
-
     }*/
 
     @Test (groups = "startCalc")
@@ -167,7 +159,6 @@ public class Post {
                 .contains("statusCode=200")&result.toString()
                 .contains("responseBody={\"status\":\"OK\",\"phrases\":[],\"cursor\":0}"));
     }
-
 
     public static String executePost(String targetURL, String urlParameters)
     {

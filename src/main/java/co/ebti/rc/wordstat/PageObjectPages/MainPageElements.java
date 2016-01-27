@@ -5,7 +5,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-
 public class MainPageElements extends Page {
 
     public MainPageElements(WebDriver driver) {
@@ -24,13 +23,11 @@ public class MainPageElements extends Page {
     @FindBy(id = "quick-search-button")
     public WebElement searchButton;
 
-
     @Override
     public void open() {
         System.out.println(HOSTNAME);
         driver.get(HOSTNAME);
     }
-
 
     public void openWithLink(String link) {
         System.out.println(HOSTNAME);

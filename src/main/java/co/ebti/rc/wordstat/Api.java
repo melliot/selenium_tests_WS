@@ -99,8 +99,4 @@ public class Api {
         String result = Hostname.getHostName() + "/api/v2/keywords_info.json?secret_token=" + token + langID + "&secret_token=" + token;
         return result;
     }*/
-
-
-
-
 }

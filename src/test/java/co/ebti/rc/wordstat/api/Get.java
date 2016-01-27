@@ -36,7 +36,6 @@ public class Get {
     private final String ruCategoryId = "a525ba202523013125b654ae52c4d3c2";
     private JSONObject someGroup;
 
-
     @Test (dataProvider = "trueOrFalse")
     public void apiGetGroups(String uniqOrNot) throws Exception {
         //String url = Hostname.getHostName() + getGroupsApiLink +"?secret_token="+ Data.token + "&assembled=" + uniqOrNot;
@@ -186,7 +185,7 @@ public class Get {
     }
 
     @Test
-         public void apiGetTopicLanguages() throws Exception {
+    public void apiGetTopicLanguages() throws Exception {
         String url = Hostname.getHostName() + getTopicLanguages + "?topic_id=" + ruCategoryId + "&secret_token="+Data.token;
 
         //Send Get to URL and retrieve result
@@ -262,7 +261,7 @@ public class Get {
     public void apiGetGroupKeywords() throws Exception {
         //String url = Hostname.getHostName() + getAnchorTemplates +"?secret_token="+Data.token;
         //String url = Hostname.getHostName() + getGroupKeywords + "?group_id=" + someGroup.get("id") + "&secret_token=" +Data.token;
-        String url = Hostname.getHostName() + getGroupKeywords + "?group_id=" + "7d1a52207f9601328bd3002590e75102" + "&secret_token=" +Data.token;
+        String url = Hostname.getHostName() + getGroupKeywords + "?group_id=" + "7d1a52207f9601328bd3002590e75102" + "&secret_token=" + Data.token;
 
         //Send Get to URL and retrieve result
         HashMap result = sendGetTo(url);

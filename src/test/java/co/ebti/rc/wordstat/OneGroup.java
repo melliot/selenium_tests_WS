@@ -32,7 +32,6 @@ public class OneGroup {
         page.editProfileLink.isDisplayed();
     }
 
-
 /*    @Test
     public void testTest(){
         page = PageFactory.initElements(driver, Login.class);
@@ -47,8 +46,6 @@ public class OneGroup {
 
         $(groupsPageElements.findButton).shouldBe(Condition.visible);
     }*/
-
-
 
     @Test
     public void moreThen2000KeywordsCollected(){

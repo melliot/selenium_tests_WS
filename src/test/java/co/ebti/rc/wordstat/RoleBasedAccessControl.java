@@ -6,12 +6,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.*;
-
 import java.awt.*;
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertFalse;
 
 public class RoleBasedAccessControl {
 
@@ -27,8 +26,6 @@ public class RoleBasedAccessControl {
     private String groupForInsideCheck;
     private String assembledGroupForInsideCheck;
     private String thereIsNoTreeMessage = "Trees generation is disabled because group has uncollected weightsSpecify configuration, please";
-
-
 
     @BeforeSuite
     public void createTestUsers() throws AWTException {

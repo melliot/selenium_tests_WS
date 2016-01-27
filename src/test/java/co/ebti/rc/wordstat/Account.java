@@ -41,14 +41,11 @@ public class Account {
         accountPE = PageFactory.initElements(driver, Accounts.class);
         accountPE.open();
 
-        while(accountPE.textOnThePageContains("some@somes.lu")==true){
+        while(accountPE.textOnThePageContains("some@somes.lu")){
             accountPE.deleteTestTestovich.click();
             driver.switchTo().alert().accept();
         }
-
-
         accountPE.addNewAccount();
-
         accountPE.accountEmail.sendKeys(email);
         accountPE.accountName.sendKeys(name);
         accountPE.userSurname.sendKeys(userSurname);
@@ -61,7 +58,10 @@ public class Account {
         selectedElement.selectByVisibleText("seoadmin");
 
         accountPE.saveButton.click();
-        assertEquals("Check that the account has been successfully created in the system", true, accountPE.textOnThePageContains(email));
+        assertEquals(
+                "Check that the account has been successfully created in the system",
+                true, accountPE.textOnThePageContains(email)
+        );
     }
 
     @DataProvider
@@ -75,13 +75,31 @@ public class Account {
                 {email2, name, "", password, passwordConfirm, "2 errors", "Without 'surname' must be 2 error"},
                 {email2, name, userSurname, "", passwordConfirm, "4 errors", "Without 'password' must be 4 errors"},
                 {email2, name, userSurname, password, "", "3 errors", "Without 'password confirm' must be 3 errors"},
-                {email2.substring(0,3), name, userSurname, password, passwordConfirm, "2 error", "With email like 'som' must be 2 errors"},
-                {"wstestuser@levelupers.com", name, userSurname, password, passwordConfirm+1, "3 errors", "With typed existing account email must be 3 errors"} //WOR-300
+                {
+                        email2.substring(0,3),
+                        name,
+                        userSurname,
+                        password,
+                        passwordConfirm,
+                        "2 error",
+                        "With email like 'som' must be 2 errors"
+                },
+                {
+                        "wstestuser@levelupers.com",
+                        name,
+                        userSurname,
+                        password,
+                        passwordConfirm+1,
+                        "3 errors",
+                        "With typed existing account email must be 3 errors"
+                } //WOR-300
         };
     }
 
     @Test (dataProvider = "accountDataList")
-    public void addNewAccountWithoutSomeMandatoryFields(String email, String name, String userSurname, String password, String passwordConfirm, String errorMessage, String aboutError) throws InterruptedException {
+    public void addNewAccountWithoutSomeMandatoryFields(String email, String name, String userSurname,
+            String password, String passwordConfirm, String errorMessage, String aboutError
+    ) throws InterruptedException {
 
         accountPE = PageFactory.initElements(driver, Accounts.class);
         accountPE.open();
@@ -125,7 +143,9 @@ public class Account {
     }
 
     @Test (dataProvider = "changeEmailTests")
-    public void changeEmail(String password, String passwordConfirm, String errorMessage, String aboutError) throws InterruptedException {
+    public void changeEmail(String password, String passwordConfirm, String errorMessage, String aboutError)
+            throws InterruptedException
+    {
         //http://jira.lvlp.co/browse/WOR-302
         accountPE = PageFactory.initElements(driver, Accounts.class);
 
@@ -154,7 +174,10 @@ public class Account {
         accountPE.userSurname.sendKeys("QA "+randomSurname);
         accountPE.saveButton.click();
 
-        assertEquals("After saving changes in user account user must see message 'User updated'", true, accountPE.textOnThePageContains("User updated"));
+        assertEquals("After saving changes in user account user must see message 'User updated'",
+                true,
+                accountPE.textOnThePageContains("User updated")
+        );
         accountPE.editProfileLink.click();
         assertEquals("Check that new user name is saved", true, accountPE.textOnThePageContains(randomName));
         assertEquals("Check that new user surname is saved", true, accountPE.textOnThePageContains(randomSurname));
@@ -163,30 +186,22 @@ public class Account {
     @Test
     public void changePassword(){
         //http://jira.lvlp.co/browse/WOR-303
-
-
     }
 
     @Test
     public void changeRole(){
         //http://jira.lvlp.co/browse/WOR-304
-
     }
 
     @Test
     public void deleteAccountByEqualRole(){
         //http://jira.lvlp.co/browse/WOR-306
-
     }
-
-
 
     @Test
     public void deleteOwnAccount(){
         //http://jira.lvlp.co/browse/WOR-308
-
     }
-
 
     @AfterMethod(alwaysRun=true)
     public void tearDown() {

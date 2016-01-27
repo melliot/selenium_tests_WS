@@ -13,14 +13,13 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertFalse;
 
 public class Category {
     private WebDriver driver;
     private Categories categories;
     private Login loginPageElements;
-
 
     @BeforeMethod
     public void createDriver(){
@@ -62,7 +61,6 @@ public class Category {
         categories.cECountryDropDownMenuCSSLink.click();
         Actions country = new Actions(driver);
         country.sendKeys("Colombia", Keys.ENTER).perform();
-
 
         //Need to fix engine check
         Select selectEngine = new Select(categories.cEEngine);
@@ -138,7 +136,6 @@ public class Category {
         driver.switchTo().alert().accept();
         assertFalse(categories.textOnThePageContains(testCategoryName));
     }
-
 
     public void createMainCategoryAndGoIn(String groupName) throws InterruptedException {
         categories = PageFactory.initElements(driver, Categories.class);
