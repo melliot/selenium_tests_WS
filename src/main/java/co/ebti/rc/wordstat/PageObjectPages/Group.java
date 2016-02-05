@@ -5,6 +5,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+/**
+ * PageObject for group.
+ */
 public class Group extends Page {
 
     public Group(WebDriver driver) {
@@ -91,9 +94,6 @@ public class Group extends Page {
     @FindBy(id = "group_blacklist")
     public WebElement blacklistSuggestsField;
 
-/*    @FindBy(id = "task_stop_words")
-    public WebElement taskStopWords;*/
-
     @FindBy(css = "div.controls > input[name=\"commit\"]")
     public WebElement updateBlacklistSuggestsButton;
 
@@ -132,7 +132,6 @@ public class Group extends Page {
     @FindBy(id = "tree_configuration_root_phrases")
     public WebElement thematicRootPhrases;
 
-    //Stop words page elements
     @FindBy(xpath = "//a[contains(text(),'Stop Words')]")
     public WebElement stopWords;
 
@@ -163,7 +162,6 @@ public class Group extends Page {
     @FindBy(xpath = "//a[contains(text(),'Help (значения спецсимволов)')]")
     public WebElement treeHelpLink;
 
-    //ASW
     @FindBy(xpath = "//a[contains(text(),'Automatic Stop Words')]")
     public WebElement automaticStopWords;
 
@@ -173,14 +171,9 @@ public class Group extends Page {
     @FindBy (id = "per_page")
     public WebElement perPageOnASW;
 
-
-/*    @FindBy(xpath = "//div[@id='js-add-stop-words-holder']/div")
-    public WebElement wtAddToStopWords;*/
-
     @Override
     public void open() {
         driver.get(HOSTNAME+"/groups");
-        linkTo_QA_AutoTestInsideGroup_QA.click();
     }
 
     @FindBy(linkText = "QA_AutoTestInsideGroup_QA")

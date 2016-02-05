@@ -2,14 +2,11 @@ package co.ebti.rc.wordstat;
 
 import com.thoughtworks.selenium.SeleniumException;
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
@@ -69,11 +66,11 @@ public abstract class Page {
 
     public boolean isElementPresentFast(WebElement element) {
         try {
-                if (element.isDisplayed()) {
-                    return true;
-                }
+            if (element.isDisplayed()) {
+                return true;
+            }
         } catch (Exception ignored) {
-                return false;
+            return false;
         }
         return true;
     }
@@ -94,9 +91,11 @@ public abstract class Page {
 
     /**
      * Web element is checked for displaying, no more than specified timeout
+     *
      * @param element web element to expect
      * @param timeout in seconds
-     * @return
+     *
+     * @return boolean
      */
     public boolean isElementPresent(WebElement element, Long timeout) {
         Long startTime = new Date().getTime();
@@ -111,7 +110,7 @@ public abstract class Page {
         return false;
     }
 
-    public void waitForElementVisible10Sec (WebElement element){
+    public void waitForElementVisible10Sec(WebElement element) {
         WebDriverWait wait = new WebDriverWait(driver, 10);
         wait.until(ExpectedConditions.visibilityOf(element));
     }
@@ -129,15 +128,15 @@ public abstract class Page {
         return false;
     }
 
-    public static void throwExceptionIfNumberOfErrorsMoreThanZero(int ifNumberOfErrorsMoreThanZero){
-        if(ifNumberOfErrorsMoreThanZero>0){
+    public static void throwExceptionIfNumberOfErrorsMoreThanZero(int ifNumberOfErrorsMoreThanZero) {
+        if (ifNumberOfErrorsMoreThanZero > 0) {
             throw new SeleniumException("We have " + ifNumberOfErrorsMoreThanZero + " errors. See test log.");
         }
     }
 
-    public static void throwExceptionIfNumberOfErrorsMoreThanZero(int ifNumberOfErrorsMoreThanZero, int maxNumberOfPossibleErrors){
-        if(ifNumberOfErrorsMoreThanZero>0){
-            throw new SeleniumException("We have " + ifNumberOfErrorsMoreThanZero + " out of "+ maxNumberOfPossibleErrors +" errors. See log");
+    public static void throwExceptionIfNumberOfErrorsMoreThanZero(int ifNumberOfErrorsMoreThanZero, int maxNumberOfPossibleErrors) {
+        if (ifNumberOfErrorsMoreThanZero > 0) {
+            throw new SeleniumException("We have " + ifNumberOfErrorsMoreThanZero + " out of " + maxNumberOfPossibleErrors + " errors. See log");
         }
     }
 
@@ -240,11 +239,11 @@ public abstract class Page {
         return false;
     }
 
-    public boolean textOnThePageContains(String text){
+    public boolean textOnThePageContains(String text) {
         return driver.getPageSource().contains(text);
     }
 
-    public void goToTheLinkWhichContainText(String testCategoryName){
+    public void goToTheLinkWhichContainText(String testCategoryName) {
         driver.findElement(By.linkText(testCategoryName)).isDisplayed();
         driver.findElement(By.linkText(testCategoryName)).click();
     }

@@ -381,6 +381,8 @@ public class RoleBasedAccessControl {
         groups.open();
 
         //Go to test group
+        groups.searchGroup.sendKeys("QA_AutoTestInsideGroup_QA");
+        groups.findButton.click();
         groups.linkTo_QA_AutoTestInsideGroup_QA.isDisplayed();
         groups.linkTo_QA_AutoTestInsideGroup_QA.click();
         groups.textOnThePageContains(thereIsNoTreeMessage);
@@ -504,6 +506,9 @@ public class RoleBasedAccessControl {
         groups.open();
 
         //Go to test group
+        groups.searchGroup.sendKeys("QA_AutoTestInsideAssembledGroup_QA");
+        groups.findButton.click();
+
         groups.linkTo_QA_AutoTestInsideAssembledGroup_QA.isDisplayed();
         groups.linkTo_QA_AutoTestInsideAssembledGroup_QA.click();
         groups.textOnThePageContains(thereIsNoTreeMessage);
@@ -511,6 +516,10 @@ public class RoleBasedAccessControl {
         //Check tabs
         group = PageFactory.initElements(driver, Group.class);
         group.open();
+
+        groups.searchGroup.sendKeys("QA_AutoTestInsideGroup_QA");
+        groups.findButton.click();
+        group.linkTo_QA_AutoTestInsideGroup_QA.click();
         //For manager
         if (email.equals(Data.managerEmail)){
             group.list.isDisplayed();
