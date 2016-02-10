@@ -1,0 +1,49 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Parallel test runs" parallel="tests" thread-count="9">
+
+    <test name="Account">
+        <classes>
+            <class name="co.ebti.rc.wordstat.Account"></class>
+        </classes>
+    </test>
+    <test name="Authorization">
+        <classes>
+            <class name="co.ebti.rc.wordstat.Authorization"></class>
+        </classes>
+    </test>
+    <test name="Category">
+        <classes>
+            <class name="co.ebti.rc.wordstat.Category"></class>
+        </classes>
+    </test>
+    <test name="ElementsOnPages">
+        <classes>
+            <class name="co.ebti.rc.wordstat.ElementsOnPages"></class>
+        </classes>
+    </test>
+    <test name="GroupsSearch">
+        <classes>
+            <class name="co.ebti.rc.wordstat.GroupsSearch"></class>
+        </classes>
+    </test>
+    <test name="OneGroup">
+        <classes>
+            <class name="co.ebti.rc.wordstat.OneGroup"></class>
+        </classes>
+    </test>
+    <test name="PagesLoadTime">
+        <classes>
+            <class name="co.ebti.rc.wordstat.PagesLoadTime"></class>
+        </classes>
+    </test>
+    <test name="RoleBasedAccessControl">
+        <classes>
+            <class name="co.ebti.rc.wordstat.RoleBasedAccessControl"></class>
+        </classes>
+    </test>
+    <test name="StopWords">
+        <classes>
+            <class name="co.ebti.rc.wordstat.StopWords"></class>
+        </classes>
+    </test>
+</suite>

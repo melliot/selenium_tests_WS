@@ -8,9 +8,11 @@ import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertTrue;
 
 public class RoleBasedAccessControl {
 
@@ -31,7 +33,7 @@ public class RoleBasedAccessControl {
     public void createTestUsers() throws AWTException {
         testUsersRoles = addRoles(testUsersRoles);
         testUsersEmails = addEmails(testUsersEmails);
-        int rolesNumber = 7;/*
+        /*
         driver = new FirefoxDriver();
         loginPE = PageFactory.initElements(driver, Login.class);
         loginPE.openAndLogin();
@@ -89,26 +91,27 @@ public class RoleBasedAccessControl {
 
     public ArrayList<String> addRoles(ArrayList<String> addRoles){
         addRoles = new ArrayList<>();
+        addRoles.add("developer");
+        addRoles.add("seoadmin");
+        addRoles.add("seo");
+        addRoles.add("manager");
+        addRoles.add("guest");
+        addRoles.add("apiuser");
+        addRoles.add("seomanager");
 
-        addRoles.add(0, "developer");
-        addRoles.add(1, "seoadmin");
-        addRoles.add(2, "seo");
-        addRoles.add(3, "manager");
-        addRoles.add(4, "guest");
-        addRoles.add(5, "apiuser");
-        addRoles.add(6, "seomanager");
         return addRoles;
     }
 
     public ArrayList<String> addEmails(ArrayList<String> addEmails){
         addEmails = new ArrayList<>();
-        addEmails.add(0,Data.developerEmail);
-        addEmails.add(1,Data.seoAdminEmail);
-        addEmails.add(2,Data.seoEmail);
-        addEmails.add(3,Data.managerEmail);
-        addEmails.add(4,Data.guestEmail);
-        addEmails.add(5,Data.apiUserEmail);
-        addEmails.add(6, Data.seoManagerEmail);
+        addEmails.add(Data.developerEmail);
+        addEmails.add(Data.seoAdminEmail);
+        addEmails.add(Data.seoEmail);
+        addEmails.add(Data.managerEmail);
+        addEmails.add(Data.guestEmail);
+        addEmails.add(Data.apiUserEmail);
+        addEmails.add(Data.seoManagerEmail);
+
         return addEmails;
     }
 
@@ -220,8 +223,8 @@ public class RoleBasedAccessControl {
         accountsPE.userPassConfirm.isDisplayed();
         accountsPE.role.isDisplayed();
         accountsPE.userServiceName.isDisplayed();
-        if (email.equals(Data.apiUserEmail)||email.equals(Data.developerEmail)||email.equals(Data.seoAdminEmail)){
-            assertEquals("Access to API Key have only Developer,SEOAdmin and API user", true, accountsPE.apiKeyLink.isDisplayed());
+        if (email.equals(Data.apiUserEmail)||email.equals(Data.developerEmail)){
+            assertEquals("Access to API Key have only Developer and API user", true, accountsPE.apiKeyLink.isDisplayed());
             accountsPE.apiKeyLink.click();
             accountsPE.generateAPIKey.isDisplayed();
             accountsPE.generateAPIKey.click();
@@ -259,7 +262,7 @@ public class RoleBasedAccessControl {
         groups.open();
 
         //Seek and delete if find test group.
-        if(groups.textOnThePageContains(testGroupName)&&email.equals(Data.managerEmail)==false){
+        if(groups.textOnThePageContains(testGroupName) && !email.equals(Data.managerEmail)){
             deleteGroup(groups.linkTo_QA_AutoTestAssembledGroup_QA, testGroupName);
         }
 
@@ -270,7 +273,7 @@ public class RoleBasedAccessControl {
             } catch (NoSuchElementException e){
                 assertEquals("Guest role can't create new group", true, e.toString().contains("Unable to locate element: {\"method\":\"id\",\"selector\":\"new\"}"));}
         }
-        if (email.equals(Data.guestEmail)){return;}
+        if (email.equals(Data.guestEmail) || email.equals(Data.managerEmail)){return;}
         groups.linkToCreateNewGroup.isDisplayed();
         groups.linkToCreateNewGroup.click();
 
@@ -423,8 +426,15 @@ public class RoleBasedAccessControl {
             assertEquals("Guest/seoManager can't see 'Stop Words' tab", true, group.isElementNotPresent(group.stopWords));
             assertEquals("Guest/seoManager can't see 'List' tab", true, group.isElementNotPresent(group.list));
             assertEquals("Guest/seoManager can't see 'Keywords Tree' tab", true, group.isElementNotPresent(group.keywordsTree));
-
             assertEquals("Guest can't see 'Anchor File' tab", true, group.isElementNotPresent(group.anchorFile));
+
+            return;
+        }
+
+        if (email.equals(Data.apiUserEmail)) {
+            assertTrue(group.isElementPresent(group.anchorFile));
+            assertTrue(group.isElementPresent(group.stopWords));
+
             return;
         }
 
@@ -451,30 +461,46 @@ public class RoleBasedAccessControl {
         group.newPresetName.isDisplayed();
         group.thematicRootPhrases.isDisplayed();
         group.addConjunctionsAndPrepositions.isDisplayed();
-        group.textOnThePageContains("name"); group.textOnThePageContains("generation"); group.textOnThePageContains("aliases");
-        group.textOnThePageContains("created"); group.textOnThePageContains("permutations & morphology");
-        group.textOnThePageContains("manual changes"); group.textOnThePageContains("rollback");
-        group.textOnThePageContains("Keywords tree settings"); group.textOnThePageContains("Buzzwords");
-        group.textOnThePageContains("Aliases:"); group.textOnThePageContains("Thematic root phrases::");
+        group.textOnThePageContains("name");
+        group.textOnThePageContains("generation");
+        group.textOnThePageContains("aliases");
+        group.textOnThePageContains("created");
+        group.textOnThePageContains("permutations & morphology");
+        group.textOnThePageContains("manual changes");
+        group.textOnThePageContains("rollback");
+        group.textOnThePageContains("Keywords tree settings");
+        group.textOnThePageContains("Buzzwords");
+        group.textOnThePageContains("Aliases:");
+        group.textOnThePageContains("Thematic root phrases::");
         group.uniqueTree.click();
         group.newPresetName.isDisplayed();
         group.thematicRootPhrases.isDisplayed();
         group.addConjunctionsAndPrepositions.isDisplayed();
-        group.textOnThePageContains("name"); group.textOnThePageContains("generation"); group.textOnThePageContains("aliases");
-        group.textOnThePageContains("created"); group.textOnThePageContains("permutations & morphology");
-        group.textOnThePageContains("manual changes"); group.textOnThePageContains("rollback");
-        group.textOnThePageContains("Keywords tree settings"); group.textOnThePageContains("Buzzwords");
-        group.textOnThePageContains("Aliases:"); group.textOnThePageContains("Thematic root phrases::");
+        group.textOnThePageContains("name");
+        group.textOnThePageContains("generation");
+        group.textOnThePageContains("aliases");
+        group.textOnThePageContains("created");
+        group.textOnThePageContains("permutations & morphology");
+        group.textOnThePageContains("manual changes");
+        group.textOnThePageContains("rollback");
+        group.textOnThePageContains("Keywords tree settings");
+        group.textOnThePageContains("Buzzwords");
+        group.textOnThePageContains("Aliases:");
+        group.textOnThePageContains("Thematic root phrases::");
 
         //Check List elements
         group.list.click();
         //group.blacklistSuggestsField.isDisplayed(); group.updateBlacklistSuggestsButton.isDisplayed();
         group.searchResultWeightFilterField.isDisplayed();
-        group.searchResultField.isDisplayed(); group.searchResultExcludeField.isDisplayed();
-        group.sortByExactWeight.isDisplayed(); group.resultsPerPageMenu.isDisplayed();
+        group.searchResultField.isDisplayed();
+        group.searchResultExcludeField.isDisplayed();
+        group.sortByExactWeight.isDisplayed();
+        group.resultsPerPageMenu.isDisplayed();
         group.toggleAllSuggests.isDisplayed();
-        group.sortByCollectionType.isDisplayed(); group.sortByExactWeight.isDisplayed();
-        group.sortByFullExactWeight.isDisplayed(); group.sortByWeight.isDisplayed();
+        group.sortByCollectionType.isDisplayed();
+        group.sortByExactWeight.isDisplayed();
+        group.sortByFullExactWeight.isDisplayed();
+        group.sortByWeight.isDisplayed();
 
         //Check Import/Export
         group.importExport.click();
@@ -555,6 +581,12 @@ public class RoleBasedAccessControl {
             assertEquals("Guest/seoManager can't see 'List' tab", true, group.isElementNotPresent(group.list));
             assertEquals("Guest/seoManager can't see 'Keywords Tree' tab", true, group.isElementNotPresent(group.keywordsTree));
             assertEquals("Guest can't see 'Anchor File' tab", true, group.isElementNotPresent(group.anchorFile));
+            return;
+        }
+
+        if (email.equals(Data.apiUserEmail)) {
+            assertTrue(group.isElementPresent(group.stopWords));
+            assertTrue(group.isElementPresent(group.anchorFile));
             return;
         }
 
