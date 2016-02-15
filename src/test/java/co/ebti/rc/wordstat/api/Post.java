@@ -18,9 +18,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
@@ -29,23 +27,26 @@ public class Post {
 
     private String createProjectId;
     private final String USER_AGENT = "Mozilla/5.0";
-    private final String anchorPostUrl = "http://" + Hostname.HOSTNAME +"/api/v2/anchor_file.json";
-    private final String comparatorUrl = "http://" + Hostname.HOSTNAME +"/api/v2/compare.json";
-    private final String addPhrasesUrl = "http://" + Hostname.HOSTNAME +"/api/v2/compare/id/phrases.json";
+    private final String anchorPostUrl = "http://" + Hostname.HOSTNAME + "/api/v2/anchor_file.json";
+    private final String comparatorUrl = "http://" + Hostname.HOSTNAME + "/api/v2/compare.json";
+    private final String addPhrasesUrl = "http://" + Hostname.HOSTNAME + "/api/v2/compare/id/phrases.json";
 
     private String getStatusUrl(String id){
-        String getStatusUrl = "http://" + Hostname.HOSTNAME +"/api/v2/compare/" + id +".json?secret_token=" + Data.token;
-        return getStatusUrl;
+
+        return "http://" + Hostname.HOSTNAME + "/api/v2/compare/"
+                + id + ".json?secret_token=" + Data.token;
     }
 
     private String getResultsUrl(String project_id, int list_num){
-        String getProjectCalculationsResultUrl = "http://" + Hostname.HOSTNAME +"/api/v2/compare/" + project_id + "/list/" + list_num + "/results.json?secret_token=" + Data.token + "&limit=10000&cursor=0";
-        return getProjectCalculationsResultUrl;
+
+        return "http://" + Hostname.HOSTNAME
+                + "/api/v2/compare/" + project_id + "/list/"
+                + list_num + "/results.json?secret_token=" + Data.token + "&limit=10000&cursor=0";
     }
 
     private String startCalculations(String id){
-        String startCalculations = "http://" + Hostname.HOSTNAME +"/api/v2/compare/"+id+"/start.json";
-        return startCalculations;
+
+        return "http://" + Hostname.HOSTNAME +"/api/v2/compare/"+id+"/start.json";
     }
 
     public void setCreateProjectId(String createProjectId) {
@@ -53,6 +54,7 @@ public class Post {
     }
 
     public String getCreateProjectId() {
+
         return createProjectId;
     }
 
@@ -145,9 +147,9 @@ public class Post {
         Get get = new Get();
         String result = get.sendGetTo(getStatusUrl(getCreateProjectId())).toString();
         System.out.println(result);
-        assertTrue("Received message: " + result.toString(), result.toString()
-                .contains("statusCode=200")&result.toString()
-                .contains("responseBody={\"status\":\"OK\",\"state\""));
+        assertTrue("Received message: " + result, result.contains("statusCode=200")
+                && result.contains("responseBody={\"status\":\"OK\",\"state\"")
+        );
     }
 
     @Test (groups = "startCalc", dependsOnMethods = "getStatus")
@@ -155,9 +157,10 @@ public class Post {
         Get get = new Get();
         String result = get.sendGetTo(getResultsUrl(getCreateProjectId(), 0)).toString();
         System.out.println(result);
-        assertTrue("Received message: " + result.toString(), result.toString()
-                .contains("statusCode=200")&result.toString()
-                .contains("responseBody={\"status\":\"OK\",\"phrases\":[],\"cursor\":0}"));
+        assertTrue("Received message: " + result,
+                result.contains("statusCode=200")
+                && result.contains("responseBody={\"status\":\"OK\",\"phrases\":[],\"cursor\":0}")
+        );
     }
 
     public static String executePost(String targetURL, String urlParameters)
