@@ -83,43 +83,6 @@ public class Post {
                 result.get("responseBody").toString().contains("waittttt"),true);
     }
 
-/*  //comparator not needed anymore
-
-    @DataProvider
-    public Object[] [] comparatorTestSets () {
-        return new Object[][]{
-                //email, error message
-                {"Case1: all is ok", "secret_token", Data.token, "config", "\"buzzwords\": [\"s\", \"sh\"]", "{\"status\":\"OK\",\"project\":{\"id\":\""},
-                {"Case2: without buzzwords array", "secret_token", Data.token, "config", "", "{\"status\":\"OK\",\"project\":{\"id\":\""},                               //
-                {"Case3: with empty buzzword array", "secret_token", Data.token, "config", "\"buzzwords\": []", "{\"status\":\"OK\",\"project\":{\"id\":\""},
-                {"Case4: with wrong buzzword name", "secret_token", Data.token, "config", "\"buzzwordsssss\": []", "{\"status\":\"OK\",\"project\":{\"id\":\""},
-                {"Case5: with wrong config value", "secret_token", Data.token, "config", "111", "HTTP Error 500 Internal server error"},
-                {"Case6: with wrong buzzword value", "secret_token", Data.token, "config", "\"buzzwords\": [111]", "HTTP Error 400 Bad request"},
-                {"Case7: with empty buzzword value", "secret_token", Data.token, "config", "\"buzzwords\": [\"\", \"\"]", "HTTP Error 400 Bad request"},
-                {"Case8: with wrong config name", "secret_token", Data.token, "configggggg", "", "HTTP Error 400 Bad request"},
-                {"Case9: with wrong token name", "secret_tokAn", Data.token, "config", "", "HTTP Error 403 Forbidden"},
-                {"Case10: with wrong token value", "secret_tokAn", Data.token+"RootsBloodyRoots", "config", "", "HTTP Error 403 Forbidden"}
-        };
-    }
-
-    @Test(dataProvider = "comparatorTestSets")
-    public void comparator(String caseAbout, String tokenName, String tokenValue, String configName, String buzzwordsArray, String expectedResult){
-        String urlParams = "{\""+tokenName+"\": \""+tokenValue+"\",\""+configName+"\":{"+buzzwordsArray+"}}";
-        String actualResult = executePost(comparatorUrl, urlParams);
-        Assert.assertTrue(actualResult.contains(expectedResult), caseAbout + ". Actual result is: " + actualResult);
-        System.out.println(actualResult);
-
-    @Test
-    public void addPhrases(){
-        String caseAbout = "";
-        String expectedResult = "   ";
-        String urlParams = "{\"secret_token\": \""+Data.token+"\", \"list_num\": 1, \"phrases\": [{\"id\": 123, \"string\": \"asd\"}]}";
-        String actualResult = executePost(addPhrasesUrl, urlParams);
-        System.out.println(actualResult);
-        Assert.assertTrue(actualResult.contains(expectedResult), caseAbout + ". Actual result is: " + actualResult);
-    }
-    }*/
-
     @Test (groups = "startCalc")
     public void startCalculations() throws Exception {
         String urlParams = "{\"secret_token\": \""+Data.token+"\", \"config\": {\"buzzwords\": [\"с\", \"на\"]}}";
@@ -190,9 +153,9 @@ public class Post {
             wr.flush ();
             wr.close ();
 
-            if (connection.getResponseCode()==500){return "HTTP Error 500 Internal server error";}
-            if (connection.getResponseCode()==403){return "HTTP Error 403 Forbidden";}
-            if (connection.getResponseCode()==400){return "HTTP Error 400 Bad request";}
+            if (connection.getResponseCode() == 500){return "HTTP Error 500 Internal server error";}
+            if (connection.getResponseCode() == 403){return "HTTP Error 403 Forbidden";}
+            if (connection.getResponseCode() == 400){return "HTTP Error 400 Bad request";}
 
             //Get Response
             InputStream is = connection.getInputStream();
